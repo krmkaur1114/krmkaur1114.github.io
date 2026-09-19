@@ -57,6 +57,8 @@ bestEl.textContent = best;
 
 let bird, pipes, score, frame, gameRunning, gameOver;
 
+const GRACE_FRAMES = 45; // brief pause before gravity kicks in, so the player has time to react
+
 function resetGame() {
   bird = { x: 70, y: H / 2, r: 14, vy: 0 };
   pipes = [];
@@ -76,7 +78,7 @@ function spawnPipe() {
 function flap() {
   if (gameOver) { resetGame(); loop(); return; }
   if (!gameRunning) return;
-  bird.vy = -7.2;
+  bird.vy = -6.2;
 }
 
 function drawBackground() {
@@ -118,10 +120,13 @@ function drawPipes() {
 
 function update() {
   frame++;
-  bird.vy += 0.45;
-  bird.y += bird.vy;
 
-  if (frame % 95 === 0) spawnPipe();
+  if (frame > GRACE_FRAMES) {
+    bird.vy += 0.32;
+    bird.y += bird.vy;
+  }
+
+  if (frame > GRACE_FRAMES && (frame - GRACE_FRAMES) % 105 === 0) spawnPipe();
 
   pipes.forEach(p => { p.x -= 2.6; });
   pipes = pipes.filter(p => p.x + p.w > -10);
@@ -169,8 +174,16 @@ function loop() {
   drawBackground();
   drawPipes();
   drawBird();
+  if (gameRunning && frame <= GRACE_FRAMES) drawGetReady();
   if (gameOver) drawGameOver();
   requestAnimationFrame(loop);
+}
+
+function drawGetReady() {
+  ctx.fillStyle = '#333';
+  ctx.textAlign = 'center';
+  ctx.font = 'bold 20px Arial';
+  ctx.fillText('Get ready...', W / 2, H / 2 - 40);
 }
 
 function drawStartScreen() {
