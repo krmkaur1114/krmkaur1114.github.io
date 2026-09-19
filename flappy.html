@@ -55,30 +55,33 @@ const W = canvas.width, H = canvas.height;
 let best = parseInt(localStorage.getItem('flappyPacketBest') || '0', 10);
 bestEl.textContent = best;
 
-let bird, pipes, score, frame, gameRunning, gameOver;
+const GRACE_FRAMES = 90; // ~1.5s pause before gravity kicks in, so the player has time to react
+const GRAVITY = 0.28;
+const FLAP_STRENGTH = -6;
 
-const GRACE_FRAMES = 45; // brief pause before gravity kicks in, so the player has time to react
+let bird, pipes, score, frame;
+let state = 'idle'; // 'idle' | 'ready' | 'playing' | 'over'
 
 function resetGame() {
   bird = { x: 70, y: H / 2, r: 14, vy: 0 };
   pipes = [];
   score = 0;
   frame = 0;
-  gameRunning = true;
-  gameOver = false;
   scoreEl.textContent = 0;
+  state = 'ready';
 }
 
 function spawnPipe() {
-  const gap = 140;
+  const gap = 150;
   const top = 40 + Math.random() * (H - gap - 80);
   pipes.push({ x: W + 20, top: top, bottom: top + gap, w: 52, scored: false });
 }
 
 function flap() {
-  if (gameOver) { resetGame(); loop(); return; }
-  if (!gameRunning) return;
-  bird.vy = -6.2;
+  if (state === 'idle') return;
+  if (state === 'over') { resetGame(); return; }
+  if (state === 'ready') state = 'playing';
+  bird.vy = FLAP_STRENGTH;
 }
 
 function drawBackground() {
@@ -121,12 +124,16 @@ function drawPipes() {
 function update() {
   frame++;
 
-  if (frame > GRACE_FRAMES) {
-    bird.vy += 0.32;
-    bird.y += bird.vy;
+  if (state === 'ready' && frame > GRACE_FRAMES) {
+    state = 'playing';
   }
 
-  if (frame > GRACE_FRAMES && (frame - GRACE_FRAMES) % 105 === 0) spawnPipe();
+  if (state !== 'playing') return;
+
+  bird.vy += GRAVITY;
+  bird.y += bird.vy;
+
+  if (frame % 110 === 0) spawnPipe();
 
   pipes.forEach(p => { p.x -= 2.6; });
   pipes = pipes.filter(p => p.x + p.w > -10);
@@ -146,8 +153,7 @@ function update() {
 }
 
 function endGame() {
-  gameRunning = false;
-  gameOver = true;
+  state = 'over';
   if (score > best) {
     best = score;
     localStorage.setItem('flappyPacketBest', best);
@@ -167,39 +173,37 @@ function drawGameOver() {
   ctx.fillText('Tap / Space to retry', W / 2, H / 2 + 38);
 }
 
-function loop() {
-  if (gameRunning) {
-    update();
-  }
-  drawBackground();
-  drawPipes();
-  drawBird();
-  if (gameRunning && frame <= GRACE_FRAMES) drawGetReady();
-  if (gameOver) drawGameOver();
-  requestAnimationFrame(loop);
-}
-
 function drawGetReady() {
   ctx.fillStyle = '#333';
   ctx.textAlign = 'center';
   ctx.font = 'bold 20px Arial';
   ctx.fillText('Get ready...', W / 2, H / 2 - 40);
+  ctx.font = '14px Arial';
+  ctx.fillText('Tap / Space to flap early and start now', W / 2, H / 2 - 15);
 }
 
-function drawStartScreen() {
-  drawBackground();
+function drawIdleScreen() {
   ctx.fillStyle = '#333';
   ctx.textAlign = 'center';
   ctx.font = 'bold 18px Arial';
   ctx.fillText('Click Start to play', W / 2, H / 2);
 }
 
-drawStartScreen();
+// single persistent loop — runs once, forever, driven by `state`
+function loop() {
+  update();
+  drawBackground();
+  drawPipes();
+  drawBird();
+  if (state === 'idle') drawIdleScreen();
+  if (state === 'ready') drawGetReady();
+  if (state === 'over') drawGameOver();
+  requestAnimationFrame(loop);
+}
 
 startBtn.addEventListener('click', () => {
   startBtn.style.display = 'none';
   resetGame();
-  loop();
 });
 
 document.addEventListener('keydown', (e) => {
@@ -207,6 +211,12 @@ document.addEventListener('keydown', (e) => {
 });
 canvas.addEventListener('mousedown', flap);
 canvas.addEventListener('touchstart', (e) => { e.preventDefault(); flap(); });
+
+bird = { x: 70, y: H / 2, r: 14, vy: 0 };
+pipes = [];
+score = 0;
+frame = 0;
+loop();
 </script>
 
 </body>
