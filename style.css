@@ -809,3 +809,30 @@ footer{
     letter-spacing:1px
   }
 }
+@media (max-width: 480px) {
+  .page-title h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  .page-title p {
+    font-size: 14px;
+    margin-top: 0;
+  }
+
+  .scoreboard {
+    font-size: 14px;
+    margin-bottom: 8px;
+  }
+
+  .hint {
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .back-link {
+    font-size: 14px;
+    display: inline-block;
+    margin: 8px 0;
+  }
+}
