@@ -1,223 +1,225 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Flappy Packet | KRM Tech</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flappy Packet | KRM Tech</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-  <div class="logo">KRM Tech 🚀</div>
-  <nav>
-    <a href="index.html">Home</a>
-    <a href="flappy.html" class="active">Flappy Packet</a>
-    <a href="typing.html">Typing Test</a>
-  </nav>
-</header>
+  <header>
+    <div class="logo">KRM Tech 🚀</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="flappy.html" class="active">Flappy Packet</a>
+      <a href="typing.html">Typing Test</a>
+    </nav>
+  </header>
 
-<div class="container">
-  <div class="page-title">
-    <h1>📦 Flappy Packet</h1>
-    <p>Guide the data packet through the firewalls without crashing!</p>
+  <div class="container">
+    <div class="page-title">
+      <h1>📦 Flappy Packet</h1>
+      <p>Guide the data packet through the firewalls without crashing!</p>
+    </div>
+
+    <div class="game-wrap">
+      <div class="scoreboard">
+        <span>Score: <strong id="score">0</strong></span>
+        <span>Best: <strong id="best">0</strong></span>
+      </div>
+      <canvas id="gameCanvas" width="380" height="480"></canvas>
+      <p class="hint">Tap / Click / Press Space to flap. Avoid the firewall pipes.</p>
+      <div id="overlay">
+        <button class="btn" id="startBtn">Start Game</button>
+      </div>
+    </div>
+
+    <a href="typing.html" class="back-link">Next: Typing Speed Test →</a><br>
+    <a href="index.html" class="back-link">⬅ Back to Home</a>
   </div>
 
-  <div class="game-wrap">
-    <div class="scoreboard">
-      <span>Score: <strong id="score">0</strong></span>
-      <span>Best: <strong id="best">0</strong></span>
-    </div>
-    <canvas id="gameCanvas" width="380" height="480"></canvas>
-    <p class="hint">Tap / Click / Press Space to flap. Avoid the firewall pipes.</p>
-    <div id="overlay">
-      <button class="btn" id="startBtn">Start Game</button>
-    </div>
-  </div>
+  <footer>
+    © 2026 KRM Tech | All Rights Reserved
+  </footer>
 
-  <a href="typing.html" class="back-link">Next: Typing Speed Test →</a><br>
-  <a href="index.html" class="back-link">⬅ Back to Home</a>
-</div>
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+    const bestEl = document.getElementById('best');
+    const startBtn = document.getElementById('startBtn');
 
-<footer>
-  © 2026 KRM Tech | All Rights Reserved
-</footer>
+    const W = canvas.width, H = canvas.height;
 
-<script>
-const canvas = document.getElementById('gameCanvas');
-const ctx = canvas.getContext('2d');
-const scoreEl = document.getElementById('score');
-const bestEl = document.getElementById('best');
-const startBtn = document.getElementById('startBtn');
-
-const W = canvas.width, H = canvas.height;
-
-let best = parseInt(localStorage.getItem('flappyPacketBest') || '0', 10);
-bestEl.textContent = best;
-
-const GRACE_FRAMES = 90; // ~1.5s pause before gravity kicks in, so the player has time to react
-const GRAVITY = 0.28;
-const FLAP_STRENGTH = -6;
-
-let bird, pipes, score, frame;
-let state = 'idle'; // 'idle' | 'ready' | 'playing' | 'over'
-
-function resetGame() {
-  bird = { x: 70, y: H / 2, r: 14, vy: 0 };
-  pipes = [];
-  score = 0;
-  frame = 0;
-  scoreEl.textContent = 0;
-  state = 'ready';
-}
-
-function spawnPipe() {
-  const gap = 150;
-  const top = 40 + Math.random() * (H - gap - 80);
-  pipes.push({ x: W + 20, top: top, bottom: top + gap, w: 52, scored: false });
-}
-
-function flap() {
-  if (state === 'idle') return;
-  if (state === 'over') { resetGame(); return; }
-  if (state === 'ready') state = 'playing';
-  bird.vy = FLAP_STRENGTH;
-}
-
-function drawBackground() {
-  ctx.fillStyle = '#eaf0ff';
-  ctx.fillRect(0, 0, W, H);
-  ctx.fillStyle = '#dfe7ff';
-  for (let i = 0; i < 5; i++) {
-    let x = ((frame * 0.6 + i * 90) % (W + 60)) - 30;
-    ctx.beginPath();
-    ctx.arc(x, 60 + (i % 3) * 40, 18, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
-function drawBird() {
-  ctx.save();
-  ctx.translate(bird.x, bird.y);
-  const angle = Math.max(-0.4, Math.min(0.9, bird.vy / 10));
-  ctx.rotate(angle);
-  ctx.fillStyle = '#764ba2';
-  ctx.beginPath();
-  ctx.roundRect(-14, -11, 28, 22, 6);
-  ctx.fill();
-  ctx.fillStyle = '#ff7eb3';
-  ctx.fillRect(-6, -4, 12, 8);
-  ctx.restore();
-}
-
-function drawPipes() {
-  pipes.forEach(p => {
-    ctx.fillStyle = '#667eea';
-    ctx.fillRect(p.x, 0, p.w, p.top);
-    ctx.fillRect(p.x, p.bottom, p.w, H - p.bottom);
-    ctx.fillStyle = '#4a5fc1';
-    ctx.fillRect(p.x - 4, p.top - 14, p.w + 8, 14);
-    ctx.fillRect(p.x - 4, p.bottom, p.w + 8, 14);
-  });
-}
-
-function update() {
-  frame++;
-
-  if (state === 'ready' && frame > GRACE_FRAMES) {
-    state = 'playing';
-  }
-
-  if (state !== 'playing') return;
-
-  bird.vy += GRAVITY;
-  bird.y += bird.vy;
-
-  if (frame % 110 === 0) spawnPipe();
-
-  pipes.forEach(p => { p.x -= 2.6; });
-  pipes = pipes.filter(p => p.x + p.w > -10);
-
-  pipes.forEach(p => {
-    if (!p.scored && p.x + p.w < bird.x) {
-      p.scored = true;
-      score++;
-      scoreEl.textContent = score;
-    }
-    const hitX = bird.x + bird.r > p.x && bird.x - bird.r < p.x + p.w;
-    const hitY = bird.y - bird.r < p.top || bird.y + bird.r > p.bottom;
-    if (hitX && hitY) endGame();
-  });
-
-  if (bird.y + bird.r > H || bird.y - bird.r < 0) endGame();
-}
-
-function endGame() {
-  state = 'over';
-  if (score > best) {
-    best = score;
-    localStorage.setItem('flappyPacketBest', best);
+    let best = parseInt(localStorage.getItem('flappyPacketBest') || '0', 10);
     bestEl.textContent = best;
-  }
-}
 
-function drawGameOver() {
-  ctx.fillStyle = 'rgba(0,0,0,0.55)';
-  ctx.fillRect(0, 0, W, H);
-  ctx.fillStyle = 'white';
-  ctx.textAlign = 'center';
-  ctx.font = 'bold 24px Arial';
-  ctx.fillText('Crashed! 💥', W / 2, H / 2 - 20);
-  ctx.font = '16px Arial';
-  ctx.fillText('Score: ' + score, W / 2, H / 2 + 10);
-  ctx.fillText('Tap / Space to retry', W / 2, H / 2 + 38);
-}
+    const GRAVITY = 0.28;
+    const FLAP_STRENGTH = -6;
 
-function drawGetReady() {
-  ctx.fillStyle = '#333';
-  ctx.textAlign = 'center';
-  ctx.font = 'bold 20px Arial';
-  ctx.fillText('Get ready...', W / 2, H / 2 - 40);
-  ctx.font = '14px Arial';
-  ctx.fillText('Tap / Space to flap early and start now', W / 2, H / 2 - 15);
-}
+    let bird, pipes, score, frame;
+    let state = 'idle'; // 'idle' | 'ready' | 'playing' | 'over'
 
-function drawIdleScreen() {
-  ctx.fillStyle = '#333';
-  ctx.textAlign = 'center';
-  ctx.font = 'bold 18px Arial';
-  ctx.fillText('Click Start to play', W / 2, H / 2);
-}
+    function resetGame() {
+      bird = {x: 70, y: H / 2, r: 14, vy: 0};
+      pipes = [];
+      score = 0;
+      frame = 0;
+      scoreEl.textContent = 0;
+      state = 'ready';
+    }
 
-// single persistent loop — runs once, forever, driven by `state`
-function loop() {
-  update();
-  drawBackground();
-  drawPipes();
-  drawBird();
-  if (state === 'idle') drawIdleScreen();
-  if (state === 'ready') drawGetReady();
-  if (state === 'over') drawGameOver();
-  requestAnimationFrame(loop);
-}
+    function spawnPipe() {
+      const gap = 150;
+      const top = 40 + Math.random() * (H - gap - 80);
+      pipes.push({x: W + 20, top: top, bottom: top + gap, w: 52, scored: false});
+    }
 
-startBtn.addEventListener('click', () => {
-  startBtn.style.display = 'none';
-  resetGame();
-});
+    function flap() {
+      if (state === 'idle') return;
+      if (state === 'over') {resetGame(); return;}
+      if (state === 'ready') {state = 'playing'; frame = 0;}
+      bird.vy = FLAP_STRENGTH;
+    }
 
-document.addEventListener('keydown', (e) => {
-  if (e.code === 'Space') { e.preventDefault(); flap(); }
-});
-canvas.addEventListener('mousedown', flap);
-canvas.addEventListener('touchstart', (e) => { e.preventDefault(); flap(); });
+    function drawBackground() {
+      ctx.fillStyle = '#eaf0ff';
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#dfe7ff';
+      for (let i = 0; i < 5; i++) {
+        let x = ((frame * 0.6 + i * 90) % (W + 60)) - 30;
+        ctx.beginPath();
+        ctx.arc(x, 60 + (i % 3) * 40, 18, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
 
-bird = { x: 70, y: H / 2, r: 14, vy: 0 };
-pipes = [];
-score = 0;
-frame = 0;
-loop();
-</script>
+    function drawBird() {
+      ctx.save();
+      ctx.translate(bird.x, bird.y);
+      const angle = Math.max(-0.4, Math.min(0.9, bird.vy / 10));
+      ctx.rotate(angle);
+      ctx.fillStyle = '#764ba2';
+      ctx.beginPath();
+      ctx.roundRect(-14, -11, 28, 22, 6);
+      ctx.fill();
+      ctx.fillStyle = '#ff7eb3';
+      ctx.fillRect(-6, -4, 12, 8);
+      ctx.restore();
+    }
+
+    function drawPipes() {
+      pipes.forEach(p => {
+        ctx.fillStyle = '#667eea';
+        ctx.fillRect(p.x, 0, p.w, p.top);
+        ctx.fillRect(p.x, p.bottom, p.w, H - p.bottom);
+        ctx.fillStyle = '#4a5fc1';
+        ctx.fillRect(p.x - 4, p.top - 14, p.w + 8, 14);
+        ctx.fillRect(p.x - 4, p.bottom, p.w + 8, 14);
+      });
+    }
+
+    function update() {
+      frame++;
+
+      if (state === 'ready') {
+        // gentle float while waiting for the player's first tap — no gravity yet
+        bird.y = H / 2 + Math.sin(frame / 15) * 8;
+        return;
+      }
+
+      if (state !== 'playing') return;
+
+      bird.vy += GRAVITY;
+      bird.y += bird.vy;
+
+      if (frame % 110 === 0) spawnPipe();
+
+      pipes.forEach(p => {p.x -= 2.6;});
+      pipes = pipes.filter(p => p.x + p.w > -10);
+
+      pipes.forEach(p => {
+        if (!p.scored && p.x + p.w < bird.x) {
+          p.scored = true;
+          score++;
+          scoreEl.textContent = score;
+        }
+        const hitX = bird.x + bird.r > p.x && bird.x - bird.r < p.x + p.w;
+        const hitY = bird.y - bird.r < p.top || bird.y + bird.r > p.bottom;
+        if (hitX && hitY) endGame();
+      });
+
+      if (bird.y + bird.r > H || bird.y - bird.r < 0) endGame();
+    }
+
+    function endGame() {
+      state = 'over';
+      if (score > best) {
+        best = score;
+        localStorage.setItem('flappyPacketBest', best);
+        bestEl.textContent = best;
+      }
+    }
+
+    function drawGameOver() {
+      ctx.fillStyle = 'rgba(0,0,0,0.55)';
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = 'white';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 24px Arial';
+      ctx.fillText('Crashed! 💥', W / 2, H / 2 - 20);
+      ctx.font = '16px Arial';
+      ctx.fillText('Score: ' + score, W / 2, H / 2 + 10);
+      ctx.fillText('Tap / Space to retry', W / 2, H / 2 + 38);
+    }
+
+    function drawGetReady() {
+      ctx.fillStyle = '#333';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 20px Arial';
+      ctx.fillText('Tap / Click / Space to start flying', W / 2, H / 2 - 40);
+    }
+
+    function drawIdleScreen() {
+      ctx.fillStyle = '#333';
+      ctx.textAlign = 'center';
+      ctx.font = 'bold 18px Arial';
+      ctx.fillText('Click Start to play', W / 2, H / 2);
+    }
+
+    // single persistent loop — runs once, forever, driven by `state`
+    function loop() {
+      update();
+      drawBackground();
+      drawPipes();
+      drawBird();
+      if (state === 'idle') drawIdleScreen();
+      if (state === 'ready') drawGetReady();
+      if (state === 'over') drawGameOver();
+      requestAnimationFrame(loop);
+    }
+
+    startBtn.addEventListener('click', () => {
+      startBtn.style.display = 'none';
+      resetGame();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') {e.preventDefault(); flap();}
+    });
+    canvas.addEventListener('mousedown', flap);
+    canvas.addEventListener('touchstart', (e) => {e.preventDefault(); flap();});
+
+    bird = {x: 70, y: H / 2, r: 14, vy: 0};
+    pipes = [];
+    score = 0;
+    frame = 0;
+    loop();
+  </script>
 
 </body>
+
 </html>
