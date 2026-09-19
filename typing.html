@@ -30,11 +30,12 @@
       <div class="stat"><div class="val" id="accVal">100%</div><div class="lbl">Accuracy</div></div>
     </div>
 
-    <p class="hint">Click the box below and just start typing — the timer starts automatically.</p>
-    <div id="paragraphDisplay" tabindex="0"></div>
-
-    <!-- hidden input captures keystrokes; mobile keyboards still work via it -->
-    <input type="text" id="typeInput" autocomplete="off" autocapitalize="off" spellcheck="false">
+    <p class="hint">Click the paragraph and just start typing — the timer starts automatically.</p>
+    <div class="type-area">
+      <div id="paragraphDisplay" tabindex="0"></div>
+      <!-- overlays the paragraph exactly, so typing happens right on top of the text -->
+      <input type="text" id="typeInput" autocomplete="off" autocapitalize="off" spellcheck="false">
+    </div>
 
     <div>
       <button class="btn" id="startBtn">New Paragraph</button>
@@ -175,6 +176,7 @@ typeInput.addEventListener('input', (e) => {
 });
 
 paragraphDisplay.addEventListener('click', () => typeInput.focus());
+document.querySelector('.type-area').addEventListener('click', () => typeInput.focus());
 startBtn.addEventListener('click', setupTest);
 restartBtn.addEventListener('click', setupTest);
 
