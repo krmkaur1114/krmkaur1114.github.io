@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typing Speed Test | KRM Tech</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="logo">KRM Tech 🚀</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="flappy.html">Flappy Packet</a>
+    <a href="typing.html" class="active">Typing Test</a>
+  </nav>
+</header>
+
+<div class="container">
+  <div class="page-title">
+    <h1>⌨️ Typing Speed Test</h1>
+    <p>Type the tech words as fast and accurately as you can — 60 seconds on the clock!</p>
+  </div>
+
+  <div class="type-wrap">
+    <div class="stats">
+      <div class="stat"><div class="val" id="timeVal">60</div><div class="lbl">Seconds</div></div>
+      <div class="stat"><div class="val" id="wpmVal">0</div><div class="lbl">WPM</div></div>
+      <div class="stat"><div class="val" id="accVal">100%</div><div class="lbl">Accuracy</div></div>
+    </div>
+
+    <div id="wordDisplay">Click "Start" to begin the test.</div>
+
+    <input type="text" id="typeInput" placeholder="Start typing here..." disabled autocomplete="off">
+
+    <div>
+      <button class="btn" id="startBtn" style="margin-top:20px;">Start Test</button>
+    </div>
+
+    <div class="result" id="resultBox">
+      <h3>⏱ Time's up!</h3>
+      <p>Final WPM: <strong id="finalWpm">0</strong> | Accuracy: <strong id="finalAcc">0%</strong></p>
+      <button class="btn" id="restartBtn">Try Again</button>
+    </div>
+  </div>
+
+  <a href="flappy.html" class="back-link">⬅ Back to Flappy Packet</a><br>
+  <a href="index.html" class="back-link">⬅ Back to Home</a>
+</div>
+
+<footer>
+  © 2026 KRM Tech | All Rights Reserved
+</footer>
+
+<script>
+const words = ["network","router","server","packet","firewall","protocol","bandwidth","gateway",
+  "encryption","latency","switch","topology","internet","hostname","subnet","cache",
+  "kernel","database","compiler","algorithm","variable","function","loop","array",
+  "bootup","malware","backup","hardware","software","browser","wireless","ethernet",
+  "keyboard","monitor","process","thread","binary","syntax","debug","upload","download"];
+
+const wordDisplay = document.getElementById('wordDisplay');
+const typeInput = document.getElementById('typeInput');
+const startBtn = document.getElementById('startBtn');
+const restartBtn = document.getElementById('restartBtn');
+const resultBox = document.getElementById('resultBox');
+const timeVal = document.getElementById('timeVal');
+const wpmVal = document.getElementById('wpmVal');
+const accVal = document.getElementById('accVal');
+const finalWpm = document.getElementById('finalWpm');
+const finalAcc = document.getElementById('finalAcc');
+
+let testWords = [];
+let currentIndex = 0;
+let correctChars = 0;
+let totalTyped = 0;
+let timer = null;
+let timeLeft = 60;
+let started = false;
+
+function generateWords(count) {
+  const arr = [];
+  for (let i = 0; i < count; i++) {
+    arr.push(words[Math.floor(Math.random() * words.length)]);
+  }
+  return arr;
+}
+
+function renderWords() {
+  wordDisplay.innerHTML = testWords.map((w, i) => {
+    if (i < currentIndex) return `<span class="done">${w}</span>`;
+    if (i === currentIndex) return `<span class="current">${w}</span>`;
+    return `<span>${w}</span>`;
+  }).join(' ');
+}
+
+function startTest() {
+  testWords = generateWords(60);
+  currentIndex = 0;
+  correctChars = 0;
+  totalTyped = 0;
+  timeLeft = 60;
+  started = false;
+  resultBox.style.display = 'none';
+  startBtn.style.display = 'none';
+  typeInput.disabled = false;
+  typeInput.value = '';
+  typeInput.focus();
+  timeVal.textContent = timeLeft;
+  wpmVal.textContent = 0;
+  accVal.textContent = '100%';
+  renderWords();
+}
+
+function beginTimer() {
+  started = true;
+  timer = setInterval(() => {
+    timeLeft--;
+    timeVal.textContent = timeLeft;
+    updateWpm();
+    if (timeLeft <= 0) endTest();
+  }, 1000);
+}
+
+function updateWpm() {
+  const elapsedMin = (60 - timeLeft) / 60;
+  const wpm = elapsedMin > 0 ? Math.round((currentIndex) / elapsedMin) : 0;
+  wpmVal.textContent = wpm;
+  const acc = totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
+  accVal.textContent = acc + '%';
+}
+
+function endTest() {
+  clearInterval(timer);
+  typeInput.disabled = true;
+  const elapsedMin = (60 - timeLeft) / 60 || 1 / 60;
+  const wpm = Math.round(currentIndex / ((60 - timeLeft) / 60 || 1));
+  const acc = totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
+  finalWpm.textContent = wpm;
+  finalAcc.textContent = acc + '%';
+  resultBox.style.display = 'block';
+}
+
+typeInput.addEventListener('input', (e) => {
+  if (!started) beginTimer();
+  const value = e.target.value;
+
+  if (value.endsWith(' ')) {
+    const typedWord = value.trim();
+    const targetWord = testWords[currentIndex];
+    totalTyped += targetWord.length;
+    for (let i = 0; i < targetWord.length; i++) {
+      if (typedWord[i] === targetWord[i]) correctChars++;
+    }
+    currentIndex++;
+    typeInput.value = '';
+    if (currentIndex >= testWords.length) {
+      testWords = testWords.concat(generateWords(30));
+    }
+    renderWords();
+    updateWpm();
+  }
+});
+
+startBtn.addEventListener('click', startTest);
+restartBtn.addEventListener('click', startTest);
+</script>
+
+</body>
+</html>
