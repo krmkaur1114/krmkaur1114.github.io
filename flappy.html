@@ -10,14 +10,20 @@
 
 <body>
 
-  <header>
-    <div class="logo">KRM Tech 🚀</div>
-    <nav>
+<header class="main-header">
+  <div class="nav-container">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">K</span>
+      KRM Tech
+    </a>
+
+    <nav class="main-nav">
       <a href="index.html">Home</a>
       <a href="flappy.html" class="active">Flappy Packet</a>
       <a href="typing.html">Typing Test</a>
     </nav>
-  </header>
+  </div>
+</header>
 
   <div class="container">
     <div class="page-title">
@@ -31,7 +37,7 @@
         <span>Best: <strong id="best">0</strong></span>
       </div>
       <canvas id="gameCanvas" width="380" height="480"></canvas>
-      <p class="hint">Tap / Click / Press Space to flap. Avoid the firewall pipes.</p>
+      <p class="hint">Tap to flap. Avoid the firewall pipes.</p>
       <div id="overlay">
         <button class="btn" id="startBtn">Start Game</button>
       </div>
@@ -86,9 +92,9 @@
     }
 
     function drawBackground() {
-      ctx.fillStyle = '#eaf0ff';
+      ctx.fillStyle = '#eef8fc';
       ctx.fillRect(0, 0, W, H);
-      ctx.fillStyle = '#dfe7ff';
+      ctx.fillStyle = '#c9e7f2';
       for (let i = 0; i < 5; i++) {
         let x = ((frame * 0.6 + i * 90) % (W + 60)) - 30;
         ctx.beginPath();
@@ -102,21 +108,21 @@
       ctx.translate(bird.x, bird.y);
       const angle = Math.max(-0.4, Math.min(0.9, bird.vy / 10));
       ctx.rotate(angle);
-      ctx.fillStyle = '#764ba2';
+      ctx.fillStyle = '#168fc2';
       ctx.beginPath();
       ctx.roundRect(-14, -11, 28, 22, 6);
       ctx.fill();
-      ctx.fillStyle = '#ff7eb3';
+      ctx.fillStyle = '#58b8dc';
       ctx.fillRect(-6, -4, 12, 8);
       ctx.restore();
     }
 
     function drawPipes() {
       pipes.forEach(p => {
-        ctx.fillStyle = '#667eea';
+        ctx.fillStyle = '#9bd8ed';
         ctx.fillRect(p.x, 0, p.w, p.top);
         ctx.fillRect(p.x, p.bottom, p.w, H - p.bottom);
-        ctx.fillStyle = '#4a5fc1';
+        ctx.fillStyle = '#107da9';
         ctx.fillRect(p.x - 4, p.top - 14, p.w + 8, 14);
         ctx.fillRect(p.x - 4, p.bottom, p.w + 8, 14);
       });
@@ -180,7 +186,7 @@
       ctx.fillStyle = '#333';
       ctx.textAlign = 'center';
       ctx.font = 'bold 20px Arial';
-      ctx.fillText('Tap / Click / Space to start flying', W / 2, H / 2 - 40);
+      ctx.fillText('Tap to start flying', W / 2, H / 2 - 40);
     }
 
     function drawIdleScreen() {
