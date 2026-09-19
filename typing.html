@@ -20,7 +20,7 @@
 <div class="container">
   <div class="page-title">
     <h1>⌨️ Typing Speed Test</h1>
-    <p>Type the tech words as fast and accurately as you can — 60 seconds on the clock!</p>
+    <p>Type the paragraph below — each letter highlights as you type it!</p>
   </div>
 
   <div class="type-wrap">
@@ -30,16 +30,18 @@
       <div class="stat"><div class="val" id="accVal">100%</div><div class="lbl">Accuracy</div></div>
     </div>
 
-    <div id="wordDisplay">Click "Start" to begin the test.</div>
+    <p class="hint">Click the box below and just start typing — the timer starts automatically.</p>
+    <div id="paragraphDisplay" tabindex="0"></div>
 
-    <input type="text" id="typeInput" placeholder="Start typing here..." disabled autocomplete="off">
+    <!-- hidden input captures keystrokes; mobile keyboards still work via it -->
+    <input type="text" id="typeInput" autocomplete="off" autocapitalize="off" spellcheck="false">
 
     <div>
-      <button class="btn" id="startBtn" style="margin-top:20px;">Start Test</button>
+      <button class="btn" id="startBtn">New Paragraph</button>
     </div>
 
     <div class="result" id="resultBox">
-      <h3>⏱ Time's up!</h3>
+      <h3 id="resultHeading">⏱ Time's up!</h3>
       <p>Final WPM: <strong id="finalWpm">0</strong> | Accuracy: <strong id="finalAcc">0%</strong></p>
       <button class="btn" id="restartBtn">Try Again</button>
     </div>
@@ -54,63 +56,69 @@
 </footer>
 
 <script>
-const words = ["network","router","server","packet","firewall","protocol","bandwidth","gateway",
-  "encryption","latency","switch","topology","internet","hostname","subnet","cache",
-  "kernel","database","compiler","algorithm","variable","function","loop","array",
-  "bootup","malware","backup","hardware","software","browser","wireless","ethernet",
-  "keyboard","monitor","process","thread","binary","syntax","debug","upload","download"];
+const paragraphs = [
+  "A computer network connects two or more devices so they can share data, files, and resources like printers and internet access. Networks can be small, like a home Wi-Fi setup, or massive, like the internet itself.",
+  "The OSI model divides network communication into seven layers, from the physical cables and signals at the bottom to the applications people actually use at the top. Each layer has one clear job to do.",
+  "Cybersecurity is about protecting systems, networks, and data from unauthorized access and attacks. Good habits like strong passwords, regular updates, and careful browsing go a long way in staying safe online.",
+  "Flask is a lightweight Python web framework that makes it easy to build web applications quickly. It gives developers the tools they need without forcing too much structure, which many beginners appreciate.",
+  "Git and GitHub help developers track changes in their code and collaborate with others. Learning version control early makes it much easier to work on real projects and team based software development."
+];
 
-const wordDisplay = document.getElementById('wordDisplay');
+const paragraphDisplay = document.getElementById('paragraphDisplay');
 const typeInput = document.getElementById('typeInput');
 const startBtn = document.getElementById('startBtn');
 const restartBtn = document.getElementById('restartBtn');
 const resultBox = document.getElementById('resultBox');
+const resultHeading = document.getElementById('resultHeading');
 const timeVal = document.getElementById('timeVal');
 const wpmVal = document.getElementById('wpmVal');
 const accVal = document.getElementById('accVal');
 const finalWpm = document.getElementById('finalWpm');
 const finalAcc = document.getElementById('finalAcc');
 
-let testWords = [];
-let currentIndex = 0;
-let correctChars = 0;
-let totalTyped = 0;
+let currentParagraph = '';
 let timer = null;
 let timeLeft = 60;
 let started = false;
+let totalTypedChars = 0;
+let correctTypedChars = 0;
 
-function generateWords(count) {
-  const arr = [];
-  for (let i = 0; i < count; i++) {
-    arr.push(words[Math.floor(Math.random() * words.length)]);
+function pickParagraph() {
+  return paragraphs[Math.floor(Math.random() * paragraphs.length)];
+}
+
+function renderParagraph(typedValue) {
+  let html = '';
+  for (let i = 0; i < currentParagraph.length; i++) {
+    const char = currentParagraph[i];
+    const safeChar = char === ' ' ? '&nbsp;' : char;
+    if (i < typedValue.length) {
+      const cls = typedValue[i] === char ? 'correct' : 'incorrect';
+      html += `<span class="${cls}">${safeChar}</span>`;
+    } else if (i === typedValue.length) {
+      html += `<span class="current">${safeChar}</span>`;
+    } else {
+      html += `<span class="pending">${safeChar}</span>`;
+    }
   }
-  return arr;
+  paragraphDisplay.innerHTML = html;
 }
 
-function renderWords() {
-  wordDisplay.innerHTML = testWords.map((w, i) => {
-    if (i < currentIndex) return `<span class="done">${w}</span>`;
-    if (i === currentIndex) return `<span class="current">${w}</span>`;
-    return `<span>${w}</span>`;
-  }).join(' ');
-}
-
-function startTest() {
-  testWords = generateWords(60);
-  currentIndex = 0;
-  correctChars = 0;
-  totalTyped = 0;
+function setupTest() {
+  currentParagraph = pickParagraph();
   timeLeft = 60;
   started = false;
+  totalTypedChars = 0;
+  correctTypedChars = 0;
   resultBox.style.display = 'none';
   startBtn.style.display = 'none';
-  typeInput.disabled = false;
   typeInput.value = '';
-  typeInput.focus();
+  typeInput.disabled = false;
   timeVal.textContent = timeLeft;
   wpmVal.textContent = 0;
   accVal.textContent = '100%';
-  renderWords();
+  renderParagraph('');
+  typeInput.focus();
 }
 
 function beginTimer() {
@@ -118,25 +126,25 @@ function beginTimer() {
   timer = setInterval(() => {
     timeLeft--;
     timeVal.textContent = timeLeft;
-    updateWpm();
-    if (timeLeft <= 0) endTest();
+    updateStats();
+    if (timeLeft <= 0) endTest('⏱ Time\'s up!');
   }, 1000);
 }
 
-function updateWpm() {
+function updateStats() {
   const elapsedMin = (60 - timeLeft) / 60;
-  const wpm = elapsedMin > 0 ? Math.round((currentIndex) / elapsedMin) : 0;
+  const wpm = elapsedMin > 0 ? Math.round((correctTypedChars / 5) / elapsedMin) : 0;
+  const acc = totalTypedChars > 0 ? Math.round((correctTypedChars / totalTypedChars) * 100) : 100;
   wpmVal.textContent = wpm;
-  const acc = totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
   accVal.textContent = acc + '%';
+  return { wpm, acc };
 }
 
-function endTest() {
+function endTest(heading) {
   clearInterval(timer);
   typeInput.disabled = true;
-  const elapsedMin = (60 - timeLeft) / 60 || 1 / 60;
-  const wpm = Math.round(currentIndex / ((60 - timeLeft) / 60 || 1));
-  const acc = totalTyped > 0 ? Math.round((correctChars / totalTyped) * 100) : 100;
+  const { wpm, acc } = updateStats();
+  resultHeading.textContent = heading;
   finalWpm.textContent = wpm;
   finalAcc.textContent = acc + '%';
   resultBox.style.display = 'block';
@@ -144,27 +152,36 @@ function endTest() {
 
 typeInput.addEventListener('input', (e) => {
   if (!started) beginTimer();
-  const value = e.target.value;
+  let value = e.target.value;
 
-  if (value.endsWith(' ')) {
-    const typedWord = value.trim();
-    const targetWord = testWords[currentIndex];
-    totalTyped += targetWord.length;
-    for (let i = 0; i < targetWord.length; i++) {
-      if (typedWord[i] === targetWord[i]) correctChars++;
-    }
-    currentIndex++;
-    typeInput.value = '';
-    if (currentIndex >= testWords.length) {
-      testWords = testWords.concat(generateWords(30));
-    }
-    renderWords();
-    updateWpm();
+  // don't let the typed value run past the paragraph length
+  if (value.length > currentParagraph.length) {
+    value = value.slice(0, currentParagraph.length);
+    typeInput.value = value;
+  }
+
+  totalTypedChars = value.length;
+  correctTypedChars = 0;
+  for (let i = 0; i < value.length; i++) {
+    if (value[i] === currentParagraph[i]) correctTypedChars++;
+  }
+
+  renderParagraph(value);
+  updateStats();
+
+  if (value.length === currentParagraph.length) {
+    endTest('🎉 Paragraph complete!');
   }
 });
 
-startBtn.addEventListener('click', startTest);
-restartBtn.addEventListener('click', startTest);
+paragraphDisplay.addEventListener('click', () => typeInput.focus());
+startBtn.addEventListener('click', setupTest);
+restartBtn.addEventListener('click', setupTest);
+
+// show a preview paragraph before the test starts — ready to type immediately
+currentParagraph = pickParagraph();
+renderParagraph('');
+typeInput.focus();
 </script>
 
 </body>

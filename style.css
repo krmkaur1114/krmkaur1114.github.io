@@ -1,3 +1,4 @@
+/* ===== KRM Tech — shared stylesheet (all pages) ===== */
 
 * {
   box-sizing: border-box;
@@ -166,33 +167,53 @@ nav a.active {
   color: #666;
 }
 
-#wordDisplay {
-  font-size: 26px;
-  letter-spacing: 1px;
-  line-height: 1.6;
-  min-height: 90px;
-  padding: 10px;
+#paragraphDisplay {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  line-height: 1.9;
+  min-height: 110px;
+  padding: 14px;
   border-radius: 10px;
   background: #faf9ff;
+  text-align: left;
   word-wrap: break-word;
+  cursor: text;
 }
 
-#wordDisplay span.done { color: #4caf50; }
-#wordDisplay span.wrong { color: #ff4f81; text-decoration: underline; }
-#wordDisplay span.current { background: #ffe08a; border-radius: 3px; }
+#paragraphDisplay span {
+  position: relative;
+}
+
+#paragraphDisplay span.pending { color: #b8b8b8; }
+#paragraphDisplay span.correct { color: #2b2b2b; }
+#paragraphDisplay span.incorrect {
+  color: #ff4f81;
+  background: rgba(255, 79, 129, 0.18);
+  border-radius: 2px;
+}
+#paragraphDisplay span.current { color: #b8b8b8; }
+#paragraphDisplay span.current::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  background: #764ba2;
+  animation: caretBlink 1s step-start infinite;
+}
+
+@keyframes caretBlink {
+  50% { opacity: 0; }
+}
 
 #typeInput {
-  width: 100%;
-  font-size: 18px;
-  padding: 12px;
-  margin-top: 18px;
-  border-radius: 10px;
-  border: 2px solid #764ba2;
-  outline: none;
-  box-sizing: border-box;
+  position: absolute;
+  opacity: 0;
+  height: 1px;
+  width: 1px;
 }
-
-#typeInput:disabled { background: #eee; }
 
 .result {
   display: none;
