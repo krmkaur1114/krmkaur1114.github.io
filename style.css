@@ -1,4 +1,4 @@
-/* ===== KRM Tech — shared stylesheet (all pages) ===== */
+/* ===== KRM Tech — Shared Styles ===== */
 
 * {
   box-sizing: border-box;
@@ -6,68 +6,77 @@
 
 body {
   margin: 0;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  background: linear-gradient(to right, #667eea, #764ba2);
-  color: white;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #f5f6f8;
+  color: #444;
   min-height: 100vh;
 }
 
-/* ===== Header / Nav ===== */
+/* ===== Header ===== */
+
 header {
-  padding: 20px;
-  text-align: center;
+  height: 58px;
+  padding: 0 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: linear-gradient(90deg, #35a9d6, #168fc2);
+  color: white;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 header .logo {
-  font-size: 30px;
-  font-weight: bold;
+  font-size: 23px;
+  font-weight: 700;
 }
 
 nav {
-  margin-top: 12px;
   display: flex;
-  justify-content: center;
-  gap: 20px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 25px;
 }
 
 nav a {
   color: white;
   text-decoration: none;
-  font-size: 16px;
-  padding: 8px 16px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.15);
-  transition: background 0.2s ease, transform 0.2s ease;
+  font-size: 15px;
+  transition: opacity 0.2s ease;
 }
 
 nav a:hover,
 nav a.active {
-  background: #ff7eb3;
-  transform: translateY(-2px);
+  opacity: 0.75;
 }
 
-/* ===== Layout ===== */
+/* ===== Main Layout ===== */
+
 .container {
-  padding: 40px 20px 60px;
-  max-width: 900px;
+  width: min(1100px, 94%);
   margin: 0 auto;
-  text-align: center;
+  padding: 35px 0 60px;
 }
 
 .page-title {
-  font-size: 26px;
-  margin-bottom: 30px;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.page-title h1 {
+  margin: 0;
+  color: #333;
+  font-size: 32px;
 }
 
 .page-title p {
+  margin-top: 8px;
+  color: #777;
   font-size: 15px;
-  opacity: 0.85;
-  font-weight: normal;
-  margin-top: 6px;
 }
 
-/* ===== Cards (index.html) ===== */
+/* ===== Cards ===== */
+
 .card {
   background: white;
   color: #2b2b2b;
@@ -75,13 +84,13 @@ nav a.active {
   margin: 20px auto;
   max-width: 340px;
   border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
   text-align: left;
 }
 
 .card h3 {
   margin-top: 0;
-  color: #764ba2;
+  color: #168fc2;
 }
 
 .card-grid {
@@ -97,7 +106,8 @@ nav a.active {
   max-width: 280px;
 }
 
-/* ===== Flappy Packet game (flappy.html) ===== */
+/* ===== Flappy Packet ===== */
+
 .game-wrap {
   max-width: 420px;
   margin: 0 auto;
@@ -106,7 +116,7 @@ nav a.active {
 #gameCanvas {
   background: #eaf0ff;
   border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.18);
   display: block;
   margin: 20px auto 10px;
   max-width: 100%;
@@ -116,7 +126,7 @@ nav a.active {
 .scoreboard {
   display: flex;
   justify-content: space-between;
-  color: white;
+  color: #333;
   font-size: 15px;
   max-width: 400px;
   margin: 0 auto 6px;
@@ -125,136 +135,269 @@ nav a.active {
 
 .hint {
   font-size: 13px;
-  opacity: 0.85;
-  margin-top: 6px;
+  color: #888;
+  margin-top: 8px;
 }
 
-/* ===== Typing Speed Test (typing.html) ===== */
+/* =====================================================
+   TYPING TEST
+   ===================================================== */
+
 .type-wrap {
   background: white;
-  color: #2b2b2b;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  max-width: 600px;
+  color: #333;
+
+  width: 100%;
+  max-width: 1000px;
+
   margin: 20px auto;
-  padding: 30px;
+  padding: 28px 32px;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 3px 15px rgba(0, 0, 0, 0.08);
+
   text-align: center;
 }
 
+/* ===== Stats ===== */
+
 .stats {
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 10px;
+  justify-content: center;
+  align-items: center;
+
+  gap: 70px;
+
+  margin-bottom: 18px;
 }
 
 .stat {
-  background: #f0ecfa;
-  border-radius: 10px;
-  padding: 10px 18px;
   min-width: 90px;
+  text-align: center;
 }
 
 .stat .val {
-  font-size: 22px;
-  font-weight: bold;
-  color: #764ba2;
+  font-size: 30px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #1599cf;
 }
 
 .stat .lbl {
-  font-size: 12px;
-  color: #666;
+  margin-top: 5px;
+  font-size: 13px;
+  color: #888;
 }
+
+/* ===== Typing Hint ===== */
+
+.type-wrap > .hint {
+  color: #888;
+  font-size: 14px;
+  margin: 10px 0 18px;
+}
+
+/* ===== Typing Area ===== */
 
 .type-area {
   position: relative;
+
+  width: 100%;
+  min-height: 420px;
+
+  background: #fff;
+
+  border: 1px solid #ddd;
+  border-radius: 10px;
+
+  overflow: hidden;
+
+  cursor: text;
+
+  text-align: left;
 }
 
+/* ===== Paragraph ===== */
+
 #paragraphDisplay {
-  font-family: 'Consolas', 'Courier New', monospace;
-  font-size: 20px;
-  letter-spacing: 0.5px;
-  line-height: 1.9;
-  min-height: 110px;
-  padding: 14px;
-  border-radius: 10px;
-  background: #faf9ff;
-  text-align: left;
+  width: 100%;
+  min-height: 420px;
+
+  padding: 20px 22px;
+
+  font-family: "Courier New", Consolas, monospace;
+
+  font-size: 25px;
+  line-height: 2.35;
+
+  letter-spacing: 4px;
+
+  color: #555;
+
   word-wrap: break-word;
-  cursor: text;
+  overflow-wrap: anywhere;
+
+  user-select: none;
 }
+
+/* ===== Individual Characters ===== */
 
 #paragraphDisplay span {
   position: relative;
+  border-radius: 4px;
 }
 
-#paragraphDisplay span.pending { color: #b8b8b8; }
-#paragraphDisplay span.correct { color: #2b2b2b; }
+/* Not typed yet */
+
+#paragraphDisplay span.pending {
+  color: #555;
+}
+
+/* Correct */
+
+#paragraphDisplay span.correct {
+  color: #82bd7c;
+  background: #eef8ec;
+}
+
+/* Wrong */
+
 #paragraphDisplay span.incorrect {
-  color: #ff4f81;
-  background: rgba(255, 79, 129, 0.18);
-  border-radius: 2px;
-}
-#paragraphDisplay span.current { color: #b8b8b8; }
-#paragraphDisplay span.current::before {
-  content: '';
-  position: absolute;
-  left: -1px;
-  top: -2px;
-  bottom: -2px;
-  width: 2px;
-  background: #764ba2;
-  animation: caretBlink 1s step-start infinite;
+  color: #e84e4e;
+  background: #ffdede;
 }
 
-@keyframes caretBlink {
-  50% { opacity: 0; }
+/* Current character */
+
+#paragraphDisplay span.current {
+  color: #555;
+  background: #fff0f0;
 }
+
+/* Blue typing cursor */
+
+#paragraphDisplay span.current::before {
+  content: "";
+
+  position: absolute;
+
+  left: -2px;
+  top: -3px;
+  bottom: -3px;
+
+  width: 2px;
+
+  background: #159fe2;
+
+  animation: typingCursor 1s step-start infinite;
+}
+
+@keyframes typingCursor {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ===== Hidden Input ===== */
 
 #typeInput {
   position: absolute;
-  top: 0;
+
   left: 0;
+  top: 0;
+
   width: 100%;
   height: 100%;
+
   opacity: 0;
+
   border: none;
+  outline: none;
+
   padding: 0;
   margin: 0;
+
   cursor: text;
 }
 
-.result {
-  display: none;
-  margin-top: 15px;
-}
-
 /* ===== Buttons ===== */
+
 .btn {
-  background: #ff7eb3;
+  background: #159bd0;
   color: white;
-  padding: 10px 22px;
+
+  padding: 11px 24px;
+
   border: none;
-  border-radius: 20px;
+  border-radius: 7px;
+
   cursor: pointer;
-  font-size: 16px;
+
+  font-size: 15px;
+  font-weight: 500;
+
   text-decoration: none;
+
   display: inline-block;
-  margin-top: 10px;
-  transition: background 0.2s ease;
+
+  margin-top: 18px;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .btn:hover {
-  background: #ff4f81;
+  background: #087eae;
+  transform: translateY(-1px);
 }
+
+.btn:active {
+  transform: translateY(0);
+}
+
+/* ===== Result ===== */
+
+.result {
+  display: none;
+
+  margin-top: 20px;
+  padding: 22px;
+
+  border-radius: 10px;
+
+  background: #f4fbff;
+  border: 1px solid #c9eaf8;
+
+  text-align: center;
+}
+
+.result h3 {
+  margin: 0 0 10px;
+
+  color: #168fbe;
+  font-size: 23px;
+}
+
+.result p {
+  color: #555;
+  font-size: 17px;
+}
+
+/* ===== Back Links ===== */
 
 .back-link {
   display: inline-block;
-  margin-top: 30px;
-  color: white;
+
+  margin-top: 25px;
+
+  color: #168fc2;
+
   text-decoration: none;
-  opacity: 0.9;
+
+  font-size: 14px;
 }
 
 .back-link:hover {
@@ -262,10 +405,98 @@ nav a.active {
 }
 
 /* ===== Footer ===== */
+
 footer {
-  margin-top: 40px;
-  padding: 16px;
+  margin-top: 30px;
+  padding: 18px;
+
   font-size: 14px;
-  opacity: 0.85;
+
+  color: #777;
+
   text-align: center;
+}
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+  header {
+    height: auto;
+    padding: 16px;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  nav {
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    font-size: 14px;
+  }
+
+  .container {
+    width: 96%;
+    padding-top: 25px;
+  }
+
+  .page-title h1 {
+    font-size: 25px;
+  }
+
+  .type-wrap {
+    padding: 18px 12px;
+  }
+
+  .stats {
+    gap: 25px;
+  }
+
+  .stat .val {
+    font-size: 25px;
+  }
+
+  .type-area,
+  #paragraphDisplay {
+    min-height: 350px;
+  }
+
+  #paragraphDisplay {
+    padding: 18px 14px;
+
+    font-size: 19px;
+    line-height: 2;
+
+    letter-spacing: 2px;
+  }
+}
+
+
+@media (max-width: 450px) {
+
+  .stats {
+    gap: 15px;
+  }
+
+  .stat {
+    min-width: 70px;
+  }
+
+  .stat .val {
+    font-size: 22px;
+  }
+
+  .stat .lbl {
+    font-size: 11px;
+  }
+
+  #paragraphDisplay {
+    font-size: 17px;
+    letter-spacing: 1px;
+  }
 }

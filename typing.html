@@ -1,189 +1,667 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Typing Speed Test | KRM Tech</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>1 Minute Typing Test | KRM Tech</title>
+
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <header>
-  <div class="logo">KRM Tech 🚀</div>
+
+  <div class="logo">
+    KRM Tech 🚀
+  </div>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="flappy.html">Flappy Packet</a>
     <a href="typing.html" class="active">Typing Test</a>
   </nav>
+
 </header>
 
+
 <div class="container">
+
   <div class="page-title">
-    <h1>⌨️ Typing Speed Test</h1>
-    <p>Type the paragraph below — each letter highlights as you type it!</p>
+
+    <h1>⌨️ 1 Minute Typing Test</h1>
+
+    <p>
+      Type the paragraph as quickly and accurately as you can.
+    </p>
+
   </div>
+
 
   <div class="type-wrap">
+
+    <!-- STATS -->
+
     <div class="stats">
-      <div class="stat"><div class="val" id="timeVal">60</div><div class="lbl">Seconds</div></div>
-      <div class="stat"><div class="val" id="wpmVal">0</div><div class="lbl">WPM</div></div>
-      <div class="stat"><div class="val" id="accVal">100%</div><div class="lbl">Accuracy</div></div>
+
+      <div class="stat">
+        <div class="val" id="timeVal">60</div>
+        <div class="lbl">Seconds</div>
+      </div>
+
+      <div class="stat">
+        <div class="val" id="wpmVal">0</div>
+        <div class="lbl">WPM</div>
+      </div>
+
+      <div class="stat">
+        <div class="val" id="accVal">100%</div>
+        <div class="lbl">Accuracy</div>
+      </div>
+
     </div>
 
-    <p class="hint">Click the paragraph and just start typing — the timer starts automatically.</p>
+
+    <p class="hint">
+      Click the paragraph and start typing — the timer starts automatically.
+    </p>
+
+
+    <!-- TYPING AREA -->
+
     <div class="type-area">
-      <div id="paragraphDisplay" tabindex="0"></div>
-      <!-- overlays the paragraph exactly, so typing happens right on top of the text -->
-      <input type="text" id="typeInput" autocomplete="off" autocapitalize="off" spellcheck="false">
+
+      <div
+        id="paragraphDisplay"
+        tabindex="0"
+      ></div>
+
+      <input
+        type="text"
+        id="typeInput"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        aria-label="Typing input"
+      >
+
     </div>
 
-    <div>
-      <button class="btn" id="startBtn">New Paragraph</button>
+
+    <!-- NEW PARAGRAPH -->
+
+    <button
+      class="btn"
+      id="startBtn"
+      type="button"
+    >
+      New Paragraph
+    </button>
+
+
+    <!-- RESULT -->
+
+    <div
+      class="result"
+      id="resultBox"
+    >
+
+      <h3 id="resultHeading">
+        ⏱ Time's up!
+      </h3>
+
+      <p>
+        Final WPM:
+        <strong id="finalWpm">0</strong>
+        &nbsp; | &nbsp;
+        Accuracy:
+        <strong id="finalAcc">0%</strong>
+      </p>
+
+      <button
+        class="btn"
+        id="restartBtn"
+        type="button"
+      >
+        Try Again
+      </button>
+
     </div>
 
-    <div class="result" id="resultBox">
-      <h3 id="resultHeading">⏱ Time's up!</h3>
-      <p>Final WPM: <strong id="finalWpm">0</strong> | Accuracy: <strong id="finalAcc">0%</strong></p>
-      <button class="btn" id="restartBtn">Try Again</button>
-    </div>
   </div>
 
-  <a href="flappy.html" class="back-link">⬅ Back to Flappy Packet</a><br>
-  <a href="index.html" class="back-link">⬅ Back to Home</a>
+
+  <a
+    href="flappy.html"
+    class="back-link"
+  >
+    ⬅ Back to Flappy Packet
+  </a>
+
+  <br>
+
+  <a
+    href="index.html"
+    class="back-link"
+  >
+    ⬅ Back to Home
+  </a>
+
 </div>
+
 
 <footer>
   © 2026 KRM Tech | All Rights Reserved
 </footer>
 
+
 <script>
+
+/* =====================================================
+   PARAGRAPHS
+   ===================================================== */
+
 const paragraphs = [
-  "A computer network connects two or more devices so they can share data, files, and resources like printers and internet access. Networks can be small, like a home Wi-Fi setup, or massive, like the internet itself.",
-  "The OSI model divides network communication into seven layers, from the physical cables and signals at the bottom to the applications people actually use at the top. Each layer has one clear job to do.",
-  "Cybersecurity is about protecting systems, networks, and data from unauthorized access and attacks. Good habits like strong passwords, regular updates, and careful browsing go a long way in staying safe online.",
-  "Flask is a lightweight Python web framework that makes it easy to build web applications quickly. It gives developers the tools they need without forcing too much structure, which many beginners appreciate.",
-  "Git and GitHub help developers track changes in their code and collaborate with others. Learning version control early makes it much easier to work on real projects and team based software development."
+
+  "Can music tame the wild beast? Can it hush puppies and calm kittens? A veterinarian thinks so. The vet has put music in over one thousand animal shelters and says it calms dogs and cats. Moreover, it even cuts down on barking.",
+
+  "The internet connects millions of computers and devices around the world. People use it every day to communicate, learn, work, shop, watch videos, and share information with others.",
+
+  "Cybersecurity is about protecting systems, networks, and data from unauthorized access and attacks. Good passwords, software updates, and careful browsing can help people stay safe online.",
+
+  "A computer network connects two or more devices so they can share data, files, printers, and internet access. Networks can be small like a home Wi-Fi system or huge like the internet.",
+
+  "Learning to type quickly and accurately is a useful computer skill. Regular practice can improve typing speed, reduce mistakes, and make everyday computer work much easier.",
+
+  "Flask is a lightweight Python web framework that makes it easy to build web applications. It gives developers useful tools while keeping the structure simple and flexible.",
+
+  "Git and GitHub help developers keep track of changes in their code. Version control also makes collaboration easier when several people are working on the same project."
+
 ];
 
-const paragraphDisplay = document.getElementById('paragraphDisplay');
-const typeInput = document.getElementById('typeInput');
-const startBtn = document.getElementById('startBtn');
-const restartBtn = document.getElementById('restartBtn');
-const resultBox = document.getElementById('resultBox');
-const resultHeading = document.getElementById('resultHeading');
-const timeVal = document.getElementById('timeVal');
-const wpmVal = document.getElementById('wpmVal');
-const accVal = document.getElementById('accVal');
-const finalWpm = document.getElementById('finalWpm');
-const finalAcc = document.getElementById('finalAcc');
 
-let currentParagraph = '';
+/* =====================================================
+   ELEMENTS
+   ===================================================== */
+
+const paragraphDisplay =
+  document.getElementById("paragraphDisplay");
+
+const typeInput =
+  document.getElementById("typeInput");
+
+const startBtn =
+  document.getElementById("startBtn");
+
+const restartBtn =
+  document.getElementById("restartBtn");
+
+const resultBox =
+  document.getElementById("resultBox");
+
+const resultHeading =
+  document.getElementById("resultHeading");
+
+const timeVal =
+  document.getElementById("timeVal");
+
+const wpmVal =
+  document.getElementById("wpmVal");
+
+const accVal =
+  document.getElementById("accVal");
+
+const finalWpm =
+  document.getElementById("finalWpm");
+
+const finalAcc =
+  document.getElementById("finalAcc");
+
+
+/* =====================================================
+   VARIABLES
+   ===================================================== */
+
+let currentParagraph = "";
+
 let timer = null;
+
 let timeLeft = 60;
+
 let started = false;
+
+let paused = false;
+
 let totalTypedChars = 0;
+
 let correctTypedChars = 0;
 
+
+/* =====================================================
+   RANDOM PARAGRAPH
+   ===================================================== */
+
 function pickParagraph() {
-  return paragraphs[Math.floor(Math.random() * paragraphs.length)];
+
+  const index =
+    Math.floor(Math.random() * paragraphs.length);
+
+  return paragraphs[index];
+
 }
+
+
+/* =====================================================
+   RENDER PARAGRAPH
+   ===================================================== */
 
 function renderParagraph(typedValue) {
-  let html = '';
-  for (let i = 0; i < currentParagraph.length; i++) {
-    const char = currentParagraph[i];
-    const safeChar = char === ' ' ? '&nbsp;' : char;
+
+  let html = "";
+
+  for (
+    let i = 0;
+    i < currentParagraph.length;
+    i++
+  ) {
+
+    const char =
+      currentParagraph[i];
+
+    const safeChar =
+      char === " "
+        ? "&nbsp;"
+        : char;
+
     if (i < typedValue.length) {
-      const cls = typedValue[i] === char ? 'correct' : 'incorrect';
-      html += `<span class="${cls}">${safeChar}</span>`;
-    } else if (i === typedValue.length) {
-      html += `<span class="current">${safeChar}</span>`;
-    } else {
-      html += `<span class="pending">${safeChar}</span>`;
+
+      const className =
+        typedValue[i] === char
+          ? "correct"
+          : "incorrect";
+
+      html +=
+        `<span class="${className}">${safeChar}</span>`;
+
     }
+
+    else if (i === typedValue.length) {
+
+      html +=
+        `<span class="current">${safeChar}</span>`;
+
+    }
+
+    else {
+
+      html +=
+        `<span class="pending">${safeChar}</span>`;
+
+    }
+
   }
+
   paragraphDisplay.innerHTML = html;
+
 }
+
+
+/* =====================================================
+   SETUP TEST
+   ===================================================== */
 
 function setupTest() {
-  currentParagraph = pickParagraph();
+
+  clearInterval(timer);
+
+  currentParagraph =
+    pickParagraph();
+
   timeLeft = 60;
+
   started = false;
+
+  paused = false;
+
   totalTypedChars = 0;
+
   correctTypedChars = 0;
-  resultBox.style.display = 'none';
-  startBtn.style.display = 'none';
-  typeInput.value = '';
+
+  resultBox.style.display = "none";
+
+  startBtn.style.display = "inline-block";
+
+  typeInput.value = "";
+
   typeInput.disabled = false;
-  timeVal.textContent = timeLeft;
-  wpmVal.textContent = 0;
-  accVal.textContent = '100%';
-  renderParagraph('');
+
+  timeVal.textContent = "60";
+
+  wpmVal.textContent = "0";
+
+  accVal.textContent = "100%";
+
+  renderParagraph("");
+
   typeInput.focus();
+
 }
+
+
+/* =====================================================
+   START TIMER
+   ===================================================== */
 
 function beginTimer() {
+
+  if (started) {
+    return;
+  }
+
   started = true;
+
+  paused = false;
+
   timer = setInterval(() => {
+
+    if (paused) {
+      return;
+    }
+
     timeLeft--;
-    timeVal.textContent = timeLeft;
+
+    timeVal.textContent =
+      timeLeft;
+
     updateStats();
-    if (timeLeft <= 0) endTest('⏱ Time\'s up!');
+
+    if (timeLeft <= 0) {
+
+      endTest("⏱ Time's up!");
+
+    }
+
   }, 1000);
+
 }
+
+
+/* =====================================================
+   UPDATE STATS
+   ===================================================== */
 
 function updateStats() {
-  const elapsedMin = (60 - timeLeft) / 60;
-  const wpm = elapsedMin > 0 ? Math.round((correctTypedChars / 5) / elapsedMin) : 0;
-  const acc = totalTypedChars > 0 ? Math.round((correctTypedChars / totalTypedChars) * 100) : 100;
-  wpmVal.textContent = wpm;
-  accVal.textContent = acc + '%';
-  return { wpm, acc };
+
+  const elapsedSeconds =
+    60 - timeLeft;
+
+  const elapsedMinutes =
+    elapsedSeconds / 60;
+
+  const wpm =
+    elapsedMinutes > 0
+      ? Math.round(
+          (correctTypedChars / 5) /
+          elapsedMinutes
+        )
+      : 0;
+
+  const accuracy =
+    totalTypedChars > 0
+      ? Math.round(
+          (correctTypedChars /
+           totalTypedChars) * 100
+        )
+      : 100;
+
+  wpmVal.textContent =
+    wpm;
+
+  accVal.textContent =
+    accuracy + "%";
+
+  return {
+    wpm,
+    accuracy
+  };
+
 }
+
+
+/* =====================================================
+   END TEST
+   ===================================================== */
 
 function endTest(heading) {
+
   clearInterval(timer);
+
+  started = false;
+
+  paused = false;
+
   typeInput.disabled = true;
-  const { wpm, acc } = updateStats();
-  resultHeading.textContent = heading;
-  finalWpm.textContent = wpm;
-  finalAcc.textContent = acc + '%';
-  resultBox.style.display = 'block';
+
+  const stats =
+    updateStats();
+
+  resultHeading.textContent =
+    heading;
+
+  finalWpm.textContent =
+    stats.wpm;
+
+  finalAcc.textContent =
+    stats.accuracy + "%";
+
+  resultBox.style.display =
+    "block";
+
 }
 
-typeInput.addEventListener('input', (e) => {
-  if (!started) beginTimer();
-  let value = e.target.value;
 
-  // don't let the typed value run past the paragraph length
-  if (value.length > currentParagraph.length) {
-    value = value.slice(0, currentParagraph.length);
-    typeInput.value = value;
+/* =====================================================
+   INPUT
+   ===================================================== */
+
+typeInput.addEventListener(
+  "input",
+  function () {
+
+    if (!started) {
+      beginTimer();
+    }
+
+    let value =
+      typeInput.value;
+
+
+    /* Don't go beyond paragraph */
+
+    if (
+      value.length >
+      currentParagraph.length
+    ) {
+
+      value =
+        value.slice(
+          0,
+          currentParagraph.length
+        );
+
+      typeInput.value =
+        value;
+
+    }
+
+
+    /* Calculate characters */
+
+    totalTypedChars =
+      value.length;
+
+    correctTypedChars = 0;
+
+
+    for (
+      let i = 0;
+      i < value.length;
+      i++
+    ) {
+
+      if (
+        value[i] ===
+        currentParagraph[i]
+      ) {
+
+        correctTypedChars++;
+
+      }
+
+    }
+
+
+    renderParagraph(value);
+
+    updateStats();
+
+
+    /* Completed */
+
+    if (
+      value.length ===
+      currentParagraph.length
+    ) {
+
+      endTest(
+        "🎉 Paragraph complete!"
+      );
+
+    }
+
   }
+);
 
-  totalTypedChars = value.length;
-  correctTypedChars = 0;
-  for (let i = 0; i < value.length; i++) {
-    if (value[i] === currentParagraph[i]) correctTypedChars++;
+
+/* =====================================================
+   CLICK TO TYPE
+   ===================================================== */
+
+paragraphDisplay.addEventListener(
+  "click",
+  function () {
+
+    typeInput.focus();
+
   }
+);
 
-  renderParagraph(value);
-  updateStats();
 
-  if (value.length === currentParagraph.length) {
-    endTest('🎉 Paragraph complete!');
+document
+  .querySelector(".type-area")
+  .addEventListener(
+    "click",
+    function () {
+
+      typeInput.focus();
+
+    }
+  );
+
+
+/* =====================================================
+   BUTTONS
+   ===================================================== */
+
+startBtn.addEventListener(
+  "click",
+  setupTest
+);
+
+restartBtn.addEventListener(
+  "click",
+  setupTest
+);
+
+
+/* =====================================================
+   PREVENT PASTE
+   ===================================================== */
+
+typeInput.addEventListener(
+  "paste",
+  function (event) {
+
+    event.preventDefault();
+
   }
-});
+);
 
-paragraphDisplay.addEventListener('click', () => typeInput.focus());
-document.querySelector('.type-area').addEventListener('click', () => typeInput.focus());
-startBtn.addEventListener('click', setupTest);
-restartBtn.addEventListener('click', setupTest);
 
-// show a preview paragraph before the test starts — ready to type immediately
-currentParagraph = pickParagraph();
-renderParagraph('');
+/* =====================================================
+   PREVENT CUT
+   ===================================================== */
+
+typeInput.addEventListener(
+  "cut",
+  function (event) {
+
+    event.preventDefault();
+
+  }
+);
+
+
+/* =====================================================
+   PAUSE WHEN TAB / WINDOW IS LEFT
+   ===================================================== */
+
+document.addEventListener(
+  "visibilitychange",
+  function () {
+
+    if (
+      document.hidden &&
+      started &&
+      !typeInput.disabled
+    ) {
+
+      paused = true;
+
+    }
+
+    else if (
+      !document.hidden &&
+      started
+    ) {
+
+      paused = false;
+
+      typeInput.focus();
+
+    }
+
+  }
+);
+
+
+/* =====================================================
+   INITIAL PARAGRAPH
+   ===================================================== */
+
+currentParagraph =
+  pickParagraph();
+
+renderParagraph("");
+
 typeInput.focus();
+
 </script>
 
 </body>
