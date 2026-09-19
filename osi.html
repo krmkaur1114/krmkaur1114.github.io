@@ -1,80 +1,122 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>OSI Model Explained</title>
-    <style>
-        body {
-            font-family: Arial;
-            margin: 40px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            color: #2c3e50;
-        }
-        h2 {
-            color: #2980b9;
-        }
-        p {
-            font-size: 16px;
-            line-height: 1.6;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-        }
-        img {
-            display: block;
-            margin: 20px auto;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OSI Model | KRM Tech</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+<header>
+  <div class="logo">KRM Tech 🚀</div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="network.html">Computer Network</a>
+    <a href="osi.html" class="active">OSI Model</a>
+  </nav>
+</header>
+
 <div class="container">
+  <div class="page-title">
+    <h1>OSI Model</h1>
+    <p>Open Systems Interconnection — the 7-layer framework of networking</p>
+  </div>
 
-<h1>OSI Model Explained for Beginners (7 Layers)</h1>
+  <div class="article">
 
-<p>The OSI (Open Systems Interconnection) Model is a conceptual framework used to understand how data is transmitted from one computer to another over a network. It divides communication into seven layers, making networking easier to understand and implement.</p>
+    <h2>What is the OSI Model?</h2>
+    <p>The OSI (Open Systems Interconnection) Model is a conceptual framework created by ISO that divides network communication into 7 layers. Each layer has a specific job, and together they describe how data travels from one device to another over a network.</p>
 
-<img src="osi.jpg" width="400">
+    <h2>The 7 Layers of OSI Model</h2>
+    <table>
+      <tr>
+        <th>Layer</th>
+        <th>Name</th>
+        <th>Function</th>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Application</td>
+        <td>Interacts directly with the user/software (e.g. browsers, email apps)</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Presentation</td>
+        <td>Formats, encrypts, and compresses data for the application layer</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Session</td>
+        <td>Establishes, manages, and ends communication sessions</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Transport</td>
+        <td>Ensures reliable data delivery (e.g. TCP, UDP)</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Network</td>
+        <td>Handles routing and logical addressing (IP addresses)</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Data Link</td>
+        <td>Handles physical addressing (MAC address) and error detection</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Physical</td>
+        <td>Transmits raw bits over cables, radio waves, or fiber</td>
+      </tr>
+    </table>
 
-<h2>1. Physical Layer</h2>
-<p>The Physical Layer is the lowest layer of the OSI Model. It is responsible for transmitting raw bits (0s and 1s) through physical media such as cables or wireless signals. It defines voltage levels, cables, and connectors used in communication.</p>
+    <div class="note">
+      💡 <strong>Easy way to remember (top to bottom):</strong> "All People Seem To Need Data Processing" → Application, Presentation, Session, Transport, Network, Data Link, Physical.
+    </div>
 
-<h2>2. Data Link Layer</h2>
-<p>This layer ensures error-free data transfer between two connected devices. It breaks data into frames and performs error detection and correction. It also uses MAC addresses for communication.</p>
+    <h2>Layer Details</h2>
 
-<h2>3. Network Layer</h2>
-<p>The Network Layer is responsible for routing and forwarding data packets. It determines the best path for data to travel from source to destination using IP addresses.</p>
+    <h3>7. Application Layer</h3>
+    <p>The closest layer to the end user. It provides network services directly to applications like web browsers, email clients, and file transfer tools (protocols: HTTP, FTP, SMTP).</p>
 
-<h2>4. Transport Layer</h2>
-<p>This layer ensures reliable data transmission. It performs error recovery, flow control, and segmentation of data. TCP and UDP are examples of transport layer protocols.</p>
+    <h3>6. Presentation Layer</h3>
+    <p>Also called the "translation layer". It converts data into a format the application layer can understand, and handles encryption, decryption, and compression.</p>
 
-<h2>5. Session Layer</h2>
-<p>The Session Layer manages sessions between devices. It establishes, maintains, and terminates communication sessions.</p>
+    <h3>5. Session Layer</h3>
+    <p>Responsible for opening, maintaining, and closing sessions between two devices. It keeps track of whose turn it is to send data and helps resume interrupted sessions.</p>
 
-<h2>6. Presentation Layer</h2>
-<p>This layer handles data formatting, encryption, and compression. It ensures that data is in a readable format for the application layer.</p>
+    <h3>4. Transport Layer</h3>
+    <p>Ensures data is delivered completely and in the correct order. TCP provides reliable, connection-based delivery, while UDP provides faster, connectionless delivery.</p>
 
-<h2>7. Application Layer</h2>
-<p>The Application Layer provides an interface for users to interact with the network. It includes services like web browsing, email, and file transfer.</p>
+    <h3>3. Network Layer</h3>
+    <p>Responsible for routing data between devices across different networks using logical addresses (IP addresses) and determining the best path for data to travel.</p>
 
-<h2>Advantages of OSI Model</h2>
-<p>- Easy to understand and learn<br>
-- Helps in troubleshooting<br>
-- Standardizes communication<br>
-- Supports interoperability</p>
+    <h3>2. Data Link Layer</h3>
+    <p>Handles communication between devices on the same network using physical (MAC) addresses, and detects/corrects errors from the physical layer.</p>
 
-<h2>Disadvantages of OSI Model</h2>
-<p>- Complex structure<br>
-- Not fully used in real-world<br>
-- Some layers are less practical</p>
+    <h3>1. Physical Layer</h3>
+    <p>The lowest layer, dealing with the actual physical connection — cables, switches, and signals (electrical, light, or radio) used to transmit raw bits of data.</p>
 
-<h2>Conclusion</h2>
-<p>The OSI Model is an important concept in networking that helps us understand how communication occurs between systems. Each layer plays a specific role, making the entire process efficient and organized.</p>
+    <h2>Why is the OSI Model Important?</h2>
+    <ul>
+      <li>Helps understand how different networking protocols work together</li>
+      <li>Makes it easier to troubleshoot network problems by isolating the layer</li>
+      <li>Provides a standard reference used in networking education and certifications</li>
+      <li>Helps in designing and building interoperable network systems</li>
+    </ul>
+
+  </div>
+
+  <a href="network.html" class="back-link">⬅ Back to Computer Network</a><br>
+  <a href="index.html" class="back-link">⬅ Back to Home</a>
 
 </div>
+
+<footer>
+  © 2026 KRM Tech | All Rights Reserved
+</footer>
 
 </body>
 </html>

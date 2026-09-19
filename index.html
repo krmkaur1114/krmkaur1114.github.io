@@ -1,80 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>KRM Tech</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #667eea, #764ba2);
-      color: white;
-      text-align: center;
-    }
-
-    header {
-      padding: 20px;
-      font-size: 30px;
-      font-weight: bold;
-    }
-
-    .container {
-      padding: 50px;
-    }
-
-    .card {
-      background: white;
-      color: black;
-      padding: 20px;
-      margin: 20px auto;
-      width: 300px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-    }
-
-    .btn {
-      background: #ff7eb3;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .btn:hover {
-      background: #ff4f81;
-    }
-
-    footer {
-      margin-top: 30px;
-      padding: 10px;
-      font-size: 14px;
-      opacity: 0.8;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KRM Tech</title>
+<link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header>KRM Tech 🚀</header>
+<header>
+  <div class="logo">KRM Tech 🚀</div>
+  <nav>
+    <a href="index.html" class="active">Home</a>
+    <a href="network.html">Computer Network</a>
+    <a href="osi.html">OSI Model</a>
+  </nav>
+</header>
 
 <div class="container">
 
   <h2>Welcome to My Website</h2>
 
-  <div class="card">
-    <h3>About Me</h3>
-    <p>I am a BCA student learning web development and digital skills.</p>
+  <div class="card-grid">
+    <div class="card">
+      <h3>About Me</h3>
+      <p>I am a BCA student learning web development and digital skills. I enjoy exploring how computers, networks, and the web work behind the scenes.</p>
+    </div>
+
+    <div class="card">
+      <h3>What I Do</h3>
+      <p>I share knowledge about programming, technology, and computer science in a simple and easy way, so that beginners can also understand it.</p>
+    </div>
+
+    <div class="card">
+      <h3>Topics I Cover</h3>
+      <p>Networking basics, the OSI model, programming concepts, and other CS fundamentals — explained step by step with examples.</p>
+    </div>
   </div>
 
-  <div class="card">
-    <h3>What I Do</h3>
-    <p>I share knowledge about programming, technology, and computer science in a simple and easy way.</p>
-  </div>
-
-<a href="network.html">
-  <button class="btn">Follow Me</button>
-</a>
+  <a href="network.html">
+    <button class="btn">Explore Computer Networks</button>
+  </a>
 
 </div>
 
