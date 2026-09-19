@@ -6,6 +6,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flappy Packet | KRM Tech</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    #gameCanvas {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+      background: #eef8fc;
+      touch-action: manipulation;
+    }
+    .game-wrap {
+      position: relative;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+  </style>
 </head>
 
 <body>
@@ -67,7 +82,7 @@
     const FLAP_STRENGTH = -6;
 
     let bird, pipes, score, frame;
-    let state = 'idle'; // 'idle' | 'ready' | 'playing' | 'over'
+    let state = 'idle';
 
     function resetGame() {
       bird = {x: 70, y: H / 2, r: 14, vy: 0};
@@ -132,7 +147,6 @@
       frame++;
 
       if (state === 'ready') {
-        // gentle float while waiting for the player's first tap — no gravity yet
         bird.y = H / 2 + Math.sin(frame / 15) * 8;
         return;
       }
@@ -196,7 +210,6 @@
       ctx.fillText('Click Start to play', W / 2, H / 2);
     }
 
-    // single persistent loop — runs once, forever, driven by `state`
     function loop() {
       update();
       drawBackground();
@@ -217,7 +230,10 @@
       if (e.code === 'Space') {e.preventDefault(); flap();}
     });
     canvas.addEventListener('mousedown', flap);
-    canvas.addEventListener('touchstart', (e) => {e.preventDefault(); flap();});
+    
+    canvas.addEventListener('touchstart', (e) => {
+      flap();
+    });
 
     bird = {x: 70, y: H / 2, r: 14, vy: 0};
     pipes = [];
