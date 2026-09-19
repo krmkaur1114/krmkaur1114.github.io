@@ -1,56 +1,436 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KRM Tech</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>KRM Tech | Games</title>
+
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-<header>
-  <div class="logo">KRM Tech 🚀</div>
-  <nav>
-    <a href="index.html" class="active">Home</a>
-    <a href="flappy.html">Flappy Packet</a>
-    <a href="typing.html">Typing Test</a>
-  </nav>
-</header>
+  <!-- ================= NAVBAR ================= -->
 
-<div class="container">
+  <header class="main-header">
 
-  <h2>Welcome to My Website</h2>
+    <div class="nav-container">
 
-  <div class="card-grid">
-    <div class="card">
-      <h3>About Me</h3>
-      <p>I am a BCA student learning web development and digital skills. I enjoy exploring how computers, networks, and the web work behind the scenes.</p>
+      <a href="index.html" class="brand">
+        <span class="brand-mark">K</span>
+        <span>KRM Tech</span>
+      </a>
+
+      <nav class="main-nav">
+
+        <a href="index.html" class="active">
+          Home
+        </a>
+
+        <a href="#games">
+          Games
+        </a>
+
+        <a href="#about">
+          About
+        </a>
+
+      </nav>
+
     </div>
 
-    <div class="card">
-      <h3>What I Do</h3>
-      <p>I share knowledge about programming, technology, and computer science in a simple and easy way, so that beginners can also understand it.</p>
+  </header>
+
+
+  <!-- ================= HERO ================= -->
+
+  <main>
+
+    <section class="games-hero">
+
+      <div class="hero-content">
+
+        <span class="hero-label">
+          KRM TECH GAMES
+        </span>
+
+        <h1>
+          Play.
+          <span>Challenge.</span>
+          Have Fun.
+        </h1>
+
+        <p>
+          Welcome to KRM Tech — a collection of simple,
+          fun and interactive browser games made to
+          play anytime.
+        </p>
+
+        <div class="hero-buttons">
+
+          <a
+            href="#games"
+            class="primary-btn"
+          >
+            Explore Games
+          </a>
+
+          <a
+            href="flappy.html"
+            class="secondary-btn"
+          >
+            Play Now
+          </a>
+
+        </div>
+
+      </div>
+
+
+      <div class="hero-game-preview">
+
+        <div class="preview-window">
+
+          <div class="preview-header">
+
+            <div class="preview-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <div class="preview-title">
+              KRM GAMES
+            </div>
+
+          </div>
+
+
+          <div class="preview-body">
+
+            <div class="preview-circle">
+              PLAY
+            </div>
+
+            <div class="preview-text">
+              <strong>
+                Ready to Play?
+              </strong>
+
+              <span>
+                Choose a game and start.
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= GAMES ================= -->
+
+    <section
+      class="games-section"
+      id="games"
+    >
+
+      <div class="section-heading">
+
+        <span>
+          GAME COLLECTION
+        </span>
+
+        <h2>
+          Explore Games
+        </h2>
+
+        <p>
+          Pick a game and start playing.
+        </p>
+
+      </div>
+
+
+      <div class="games-grid">
+
+
+        <!-- FLAPPY PACKET -->
+
+        <a
+          href="flappy.html"
+          class="game-card"
+        >
+
+          <div class="game-card-top">
+
+            <div class="game-icon flappy-icon">
+              FP
+            </div>
+
+            <span class="game-status">
+              PLAY
+            </span>
+
+          </div>
+
+          <h3>
+            Flappy Packet
+          </h3>
+
+          <p>
+            Fly through the obstacles, avoid
+            the pipes and try to get the highest
+            score.
+          </p>
+
+          <div class="game-card-bottom">
+
+            <span>
+              Play Game
+            </span>
+
+            <strong>
+              →
+            </strong>
+
+          </div>
+
+        </a>
+
+
+        <!-- TYPING TEST -->
+
+        <a
+          href="typing.html"
+          class="game-card"
+        >
+
+          <div class="game-card-top">
+
+            <div class="game-icon typing-icon">
+              TT
+            </div>
+
+            <span class="game-status">
+              PLAY
+            </span>
+
+          </div>
+
+          <h3>
+            1 Minute Typing Test
+          </h3>
+
+          <p>
+            Test your typing speed and accuracy
+            in a one-minute typing challenge.
+          </p>
+
+          <div class="game-card-bottom">
+
+            <span>
+              Start Test
+            </span>
+
+            <strong>
+              →
+            </strong>
+
+          </div>
+
+        </a>
+
+
+        <!-- COMING SOON -->
+
+        <div class="game-card coming-soon">
+
+          <div class="game-card-top">
+
+            <div class="game-icon soon-icon">
+              +
+            </div>
+
+            <span class="game-status">
+              SOON
+            </span>
+
+          </div>
+
+          <h3>
+            More Games
+          </h3>
+
+          <p>
+            More browser games are coming soon.
+            New challenges will be added here.
+          </p>
+
+          <div class="game-card-bottom">
+
+            <span>
+              Coming Soon
+            </span>
+
+            <strong>
+              ...
+            </strong>
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= ABOUT ================= -->
+
+    <section
+      class="about-section"
+      id="about"
+    >
+
+      <div class="about-content">
+
+        <span class="section-label">
+          ABOUT KRM TECH
+        </span>
+
+        <h2>
+          A place for simple,
+          <span>fun games.</span>
+        </h2>
+
+        <p>
+          KRM Tech is a small collection of browser
+          games and interactive experiences. Choose
+          a game, challenge yourself and enjoy.
+        </p>
+
+      </div>
+
+
+      <div class="about-stats">
+
+        <div>
+          <strong>
+            02
+          </strong>
+
+          <span>
+            Games Available
+          </span>
+        </div>
+
+        <div>
+          <strong>
+            01
+          </strong>
+
+          <span>
+            Minute Challenge
+          </span>
+        </div>
+
+        <div>
+          <strong>
+            ∞
+          </strong>
+
+          <span>
+            More Coming
+          </span>
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= CTA ================= -->
+
+    <section class="play-section">
+
+      <span>
+        READY?
+      </span>
+
+      <h2>
+        Choose your game.
+      </h2>
+
+      <p>
+        Pick a challenge and start playing.
+      </p>
+
+      <a
+        href="#games"
+        class="primary-btn"
+      >
+        Explore Games
+      </a>
+
+    </section>
+
+  </main>
+
+
+  <!-- ================= FOOTER ================= -->
+
+  <footer class="site-footer">
+
+    <div class="footer-inner">
+
+      <div class="footer-brand">
+
+        <strong>
+          KRM Tech
+        </strong>
+
+        <p>
+          Games. Challenges. Fun.
+        </p>
+
+      </div>
+
+
+      <div class="footer-links">
+
+        <a href="index.html">
+          Home
+        </a>
+
+        <a href="#games">
+          Games
+        </a>
+
+        <a href="#about">
+          About
+        </a>
+
+      </div>
+
     </div>
 
-    <div class="card">
-      <h3>🎮 Mini Games</h3>
-      <p>Take a break and play — dodge firewalls in Flappy Packet, or test your speed in the Typing Test!</p>
+
+    <div class="footer-bottom">
+      © 2026 KRM Tech. All Rights Reserved.
     </div>
-  </div>
 
-  <a href="flappy.html">
-    <button class="btn">🎮 Play Flappy Packet</button>
-  </a>
-  &nbsp;
-  <a href="typing.html">
-    <button class="btn">⌨️ Try Typing Test</button>
-  </a>
-
-</div>
-
-<footer>
-  © 2026 KRM Tech | All Rights Reserved
-</footer>
+  </footer>
 
 </body>
 </html>
