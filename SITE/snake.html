@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake Game | KRM Tech</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="main-header">
+  <div class="nav-container">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">K</span>
+      KRM Tech
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="flappy.html">Flappy Packet</a>
+      <a href="typing.html">Typing Test</a>
+      <a href="snake.html" class="active">Snake</a>
+      <a href="brick.html">Brick Breaker</a>
+      <a href="dino.html">Dino Runner</a>
+      <a href="math.html">Math Challenge</a>
+      <a href="square.html">Square Rush</a>
+      <a href="memory.html">Memory Match</a>
+    </nav>
+  </div>
+</header>
+  <h1>🐍 Snake Game</h1>
+
+  <p>Score: <strong id="score">0</strong></p>
+
+  <canvas id="gameCanvas" width="400" height="400"></canvas>
+
+  <p>Use Arrow Keys or WASD to move.</p>
+
+  <button onclick="startGame()">Start Game</button>
+
+  <script>
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const box = 20;
+    const rows = canvas.width / box;
+
+    let snake;
+    let food;
+    let direction;
+    let score;
+    let game;
+
+    function startGame() {
+      clearInterval(game);
+
+      snake = [
+        { x: 10 * box, y: 10 * box },
+        { x: 9 * box, y: 10 * box },
+        { x: 8 * box, y: 10 * box }
+      ];
+
+      direction = "RIGHT";
+      score = 0;
+
+      document.getElementById("score").textContent = score;
+
+      createFood();
+
+      game = setInterval(drawGame, 100);
+    }
+
+    function createFood() {
+      food = {
+        x: Math.floor(Math.random() * rows) * box,
+        y: Math.floor(Math.random() * rows) * box
+      };
+
+      for (let part of snake) {
+        if (part.x === food.x && part.y === food.y) {
+          createFood();
+          return;
+        }
+      }
+    }
+
+    document.addEventListener("keydown", function(event) {
+
+      if ((event.key === "ArrowUp" || event.key.toLowerCase() === "w")
+          && direction !== "DOWN") {
+        direction = "UP";
+      }
+
+      if ((event.key === "ArrowDown" || event.key.toLowerCase() === "s")
+          && direction !== "UP") {
+        direction = "DOWN";
+      }
+
+      if ((event.key === "ArrowLeft" || event.key.toLowerCase() === "a")
+          && direction !== "RIGHT") {
+        direction = "LEFT";
+      }
+
+      if ((event.key === "ArrowRight" || event.key.toLowerCase() === "d")
+          && direction !== "LEFT") {
+        direction = "RIGHT";
+      }
+    });
+
+    function drawGame() {
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Food
+      ctx.fillStyle = "red";
+      ctx.fillRect(food.x, food.y, box, box);
+
+      // Snake
+      for (let i = 0; i < snake.length; i++) {
+        ctx.fillStyle = i === 0 ? "green" : "lightgreen";
+        ctx.fillRect(snake[i].x, snake[i].y, box, box);
+      }
+
+      let headX = snake[0].x;
+      let headY = snake[0].y;
+
+      if (direction === "UP") headY -= box;
+      if (direction === "DOWN") headY += box;
+      if (direction === "LEFT") headX -= box;
+      if (direction === "RIGHT") headX += box;
+
+      // Eat food
+      if (headX === food.x && headY === food.y) {
+        score++;
+        document.getElementById("score").textContent = score;
+        createFood();
+      } else {
+        snake.pop();
+      }
+
+      const newHead = {
+        x: headX,
+        y: headY
+      };
+
+      // Collision
+      if (
+        headX < 0 ||
+        headY < 0 ||
+        headX >= canvas.width ||
+        headY >= canvas.height ||
+        hitSnake(newHead)
+      ) {
+        clearInterval(game);
+        alert("Game Over! Score: " + score);
+        return;
+      }
+
+      snake.unshift(newHead);
+    }
+
+    function hitSnake(head) {
+      for (let part of snake) {
+        if (part.x === head.x && part.y === head.y) {
+          return true;
+        }
+      }
+      return false;
+    }
+  </script>
+
+</body>
+</html>

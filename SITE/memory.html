@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Memory Game | KRM Tech</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="main-header">
+  <div class="nav-container">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">K</span>
+      KRM Tech
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="flappy.html">Flappy Packet</a>
+      <a href="typing.html">Typing Test</a>
+      <a href="snake.html">Snake</a>
+      <a href="brick.html">Brick Breaker</a>
+      <a href="dino.html">Dino Runner</a>
+      <a href="math.html">Math Challenge</a>
+      <a href="square.html">Square Rush</a>
+      <a href="memory.html"class="active">Memory Match</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="game-page">
+    <h1>Memory Game</h1>
+    <p>Match the same cards!</p>
+
+    <div id="game"></div>
+
+    <button onclick="startGame()">Restart Game</button>
+    <p id="score">Moves: 0</p>
+  </section>
+</main>
+
+<script>
+const emojis = ["🍎","🍎","🚀","🚀","⭐","⭐","🎮","🎮"];
+let firstCard = null;
+let secondCard = null;
+let moves = 0;
+
+function startGame() {
+  const game = document.getElementById("game");
+  game.innerHTML = "";
+  moves = 0;
+  document.getElementById("score").textContent = "Moves: 0";
+
+  emojis.sort(() => Math.random() - 0.5);
+
+  emojis.forEach((emoji) => {
+    const card = document.createElement("button");
+    card.textContent = "?";
+    card.style.width = "80px";
+    card.style.height = "80px";
+    card.style.margin = "5px";
+    card.style.fontSize = "25px";
+
+    card.onclick = function () {
+      if (card.textContent !== "?") return;
+
+      card.textContent = emoji;
+
+      if (!firstCard) {
+        firstCard = { card, emoji };
+      } else {
+        secondCard = { card, emoji };
+        moves++;
+        document.getElementById("score").textContent = "Moves: " + moves;
+
+        if (firstCard.emoji === secondCard.emoji) {
+          firstCard = null;
+          secondCard = null;
+        } else {
+          setTimeout(() => {
+            firstCard.card.textContent = "?";
+            secondCard.card.textContent = "?";
+            firstCard = null;
+            secondCard = null;
+          }, 700);
+        }
+      }
+    };
+
+    game.appendChild(card);
+  });
+}
+
+startGame();
+</script>
+
+</body>
+</html>

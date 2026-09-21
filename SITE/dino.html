@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dino Runner | KRM Tech</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="main-header">
+  <div class="nav-container">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">K</span>
+      KRM Tech
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="flappy.html">Flappy Packet</a>
+      <a href="typing.html">Typing Test</a>
+      <a href="snake.html">Snake</a>
+      <a href="brick.html">Brick Breaker</a>
+      <a href="dino.html" class="active">Dino Runner</a>
+      <a href="math.html">Math Challenge</a>
+      <a href="square.html">Square Rush</a>
+      <a href="memory.html">Memory Match</a>
+    </nav>
+  </div>
+</header>
+
+  <h1>🦘 Dino Runner</h1>
+
+  <p>Score: <strong id="score">0</strong></p>
+
+  <canvas id="gameCanvas" width="700" height="300"></canvas>
+
+  <p>Press Space or ↑ to jump.</p>
+
+  <button onclick="startGame()">Start Game</button>
+
+  <script>
+
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let dino;
+    let obstacle;
+    let score;
+    let game;
+    let running = false;
+
+    function startGame() {
+
+      clearInterval(game);
+
+      dino = {
+        x: 70,
+        y: 230,
+        width: 40,
+        height: 40,
+        velocity: 0,
+        jumping: false
+      };
+
+      obstacle = {
+        x: canvas.width,
+        y: 240,
+        width: 25,
+        height: 50
+      };
+
+      score = 0;
+      running = true;
+
+      document.getElementById("score").textContent = score;
+
+      game = setInterval(updateGame, 20);
+    }
+
+    document.addEventListener("keydown", function(e) {
+
+      if (e.code === "Space" || e.key === "ArrowUp") {
+
+        if (!dino || !running) return;
+
+        if (!dino.jumping) {
+
+          dino.velocity = -11;
+          dino.jumping = true;
+
+        }
+
+      }
+
+    });
+
+    function updateGame() {
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Ground
+      ctx.fillStyle = "black";
+      ctx.fillRect(0, 270, canvas.width, 3);
+
+      // Gravity
+      dino.velocity += 0.5;
+      dino.y += dino.velocity;
+
+      if (dino.y >= 230) {
+
+        dino.y = 230;
+        dino.velocity = 0;
+        dino.jumping = false;
+
+      }
+
+      // Dino
+      ctx.fillStyle = "green";
+
+      ctx.fillRect(
+        dino.x,
+        dino.y,
+        dino.width,
+        dino.height
+      );
+
+      // Obstacle
+      obstacle.x -= 7;
+
+      if (obstacle.x < -obstacle.width) {
+
+        obstacle.x = canvas.width + Math.random() * 300;
+
+        score++;
+
+        document.getElementById("score").textContent = score;
+
+      }
+
+      ctx.fillStyle = "brown";
+
+      ctx.fillRect(
+        obstacle.x,
+        obstacle.y,
+        obstacle.width,
+        obstacle.height
+      );
+
+      // Collision
+      if (
+        dino.x < obstacle.x + obstacle.width &&
+        dino.x + dino.width > obstacle.x &&
+        dino.y < obstacle.y + obstacle.height &&
+        dino.y + dino.height > obstacle.y
+      ) {
+
+        running = false;
+
+        clearInterval(game);
+
+        alert("Game Over! Score: " + score);
+
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Challenge | KRM Tech</title>
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+<header class="main-header">
+  <div class="nav-container">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">K</span>
+      KRM Tech
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="flappy.html">Flappy Packet</a>
+      <a href="typing.html">Typing Test</a>
+      <a href="snake.html">Snake</a>
+      <a href="brick.html">Brick Breaker</a>
+      <a href="dino.html">Dino Runner</a>
+      <a href="math.html"class="active">Math Challenge</a>
+      <a href="square.html">Square Rush</a>
+      <a href="memory.html">Memory Match</a>
+    </nav>
+  </div>
+</header>
+  <h1>🧮 Math Challenge</h1>
+
+  <p>
+    Time:
+    <strong id="time">60</strong>
+    seconds
+  </p>
+
+  <p>
+    Score:
+    <strong id="score">0</strong>
+  </p>
+
+  <h2 id="question">Press Start</h2>
+
+  <input
+    type="number"
+    id="answer"
+    placeholder="Your answer"
+  >
+
+  <button onclick="startGame()">Start Game</button>
+
+  <button onclick="checkAnswer()">Submit</button>
+
+  <script>
+
+    let num1;
+    let num2;
+    let operator;
+    let correctAnswer;
+
+    let score = 0;
+    let time = 60;
+
+    let timer;
+    let gameStarted = false;
+
+    function startGame() {
+
+      clearInterval(timer);
+
+      score = 0;
+      time = 60;
+
+      gameStarted = true;
+
+      document.getElementById("score").textContent = score;
+      document.getElementById("time").textContent = time;
+
+      document.getElementById("answer").value = "";
+
+      newQuestion();
+
+      timer = setInterval(function() {
+
+        time--;
+
+        document.getElementById("time").textContent = time;
+
+        if (time <= 0) {
+
+          clearInterval(timer);
+
+          gameStarted = false;
+
+          document.getElementById("question").textContent =
+            "Time Over! 🎉 Score: " + score;
+
+        }
+
+      }, 1000);
+
+    }
+
+    function newQuestion() {
+
+      num1 = Math.floor(Math.random() * 20) + 1;
+      num2 = Math.floor(Math.random() * 20) + 1;
+
+      const operators = ["+", "-", "*"];
+
+      operator =
+        operators[Math.floor(Math.random() * operators.length)];
+
+      if (operator === "+") {
+        correctAnswer = num1 + num2;
+      }
+
+      if (operator === "-") {
+        correctAnswer = num1 - num2;
+      }
+
+      if (operator === "*") {
+        correctAnswer = num1 * num2;
+      }
+
+      document.getElementById("question").textContent =
+        num1 + " " + operator + " " + num2 + " = ?";
+
+    }
+
+    function checkAnswer() {
+
+      if (!gameStarted) return;
+
+      const userAnswer =
+        Number(document.getElementById("answer").value);
+
+      if (userAnswer === correctAnswer) {
+
+        score++;
+
+        document.getElementById("score").textContent = score;
+
+      }
+
+      document.getElementById("answer").value = "";
+
+      newQuestion();
+
+    }
+
+    document.getElementById("answer").addEventListener(
+      "keydown",
+      function(e) {
+
+        if (e.key === "Enter") {
+          checkAnswer();
+        }
+
+      }
+    );
+
+  </script>
+
+</body>
+</html>

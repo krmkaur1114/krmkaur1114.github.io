@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Square Rush | KRM Tech</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="main-header">
+  <div class="nav-container">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">K</span>
+      KRM Tech
+    </a>
+
+    <nav class="main-nav">
+      <a href="index.html">Home</a>
+      <a href="flappy.html">Flappy Packet</a>
+      <a href="typing.html">Typing Test</a>
+      <a href="snake.html">Snake</a>
+      <a href="brick.html">Brick Breaker</a>
+      <a href="dino.html">Dino Runner</a>
+      <a href="math.html">Math Challenge</a>
+      <a href="square.html"class="active">Square Rush</a>
+     <a href="memory.html">Memory Match</a>
+     
+    </nav>
+  </div>
+</header>
+
+  <h1>🟦 Square Rush</h1>
+
+  <p>Score: <strong id="score">0</strong></p>
+
+  <canvas id="gameCanvas" width="500" height="400"></canvas>
+
+  <p>Use ← → keys to move.</p>
+
+  <button onclick="startGame()">Start Game</button>
+
+  <script>
+
+    const canvas = document.getElementById("gameCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let player;
+    let enemies;
+    let score;
+    let game;
+    let running;
+
+    let left = false;
+    let right = false;
+
+    function startGame() {
+
+      clearInterval(game);
+
+      player = {
+        x: 230,
+        y: 340,
+        width: 40,
+        height: 40,
+        speed: 7
+      };
+
+      enemies = [];
+
+      score = 0;
+      running = true;
+
+      document.getElementById("score").textContent = score;
+
+      game = setInterval(updateGame, 30);
+    }
+
+    document.addEventListener("keydown", function(e) {
+
+      if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") {
+        left = true;
+      }
+
+      if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") {
+        right = true;
+      }
+
+    });
+
+    document.addEventListener("keyup", function(e) {
+
+      if (e.key === "ArrowLeft" || e.key.toLowerCase() === "a") {
+        left = false;
+      }
+
+      if (e.key === "ArrowRight" || e.key.toLowerCase() === "d") {
+        right = false;
+      }
+
+    });
+
+    function createEnemy() {
+
+      enemies.push({
+        x: Math.random() * (canvas.width - 30),
+        y: -30,
+        width: 30,
+        height: 30,
+        speed: 3 + Math.random() * 3
+      });
+
+    }
+
+    let frame = 0;
+
+    function updateGame() {
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      frame++;
+
+      if (frame % 30 === 0) {
+        createEnemy();
+      }
+
+      // Player movement
+      if (left) player.x -= player.speed;
+      if (right) player.x += player.speed;
+
+      if (player.x < 0) player.x = 0;
+
+      if (player.x + player.width > canvas.width) {
+        player.x = canvas.width - player.width;
+      }
+
+      // Player
+      ctx.fillStyle = "blue";
+
+      ctx.fillRect(
+        player.x,
+        player.y,
+        player.width,
+        player.height
+      );
+
+      // Enemies
+      for (let i = enemies.length - 1; i >= 0; i--) {
+
+        let enemy = enemies[i];
+
+        enemy.y += enemy.speed;
+
+        ctx.fillStyle = "red";
+
+        ctx.fillRect(
+          enemy.x,
+          enemy.y,
+          enemy.width,
+          enemy.height
+        );
+
+        // Collision
+        if (
+          player.x < enemy.x + enemy.width &&
+          player.x + player.width > enemy.x &&
+          player.y < enemy.y + enemy.height &&
+          player.y + player.height > enemy.y
+        ) {
+
+          clearInterval(game);
+
+          running = false;
+
+          alert("Game Over! Score: " + score);
+
+          return;
+        }
+
+        // Passed enemy
+        if (enemy.y > canvas.height) {
+
+          enemies.splice(i, 1);
+
+          score++;
+
+          document.getElementById("score").textContent = score;
+
+        }
+
+      }
+
+    }
+
+  </script>
+
+</body>
+</html>
